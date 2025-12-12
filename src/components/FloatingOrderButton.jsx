@@ -1,11 +1,14 @@
 import Button from "./ui/Button.jsx";
+import { useSiteConfig } from "../context/SiteConfigContext.jsx";
 
 export default function FloatingOrderButton() {
+  const { config } = useSiteConfig();
+
   return (
     <div className="fixed bottom-5 right-5 z-50">
       <Button
         as="a"
-        href="https://wa.me/34000000000"
+        href={config.links.whatsapp}
         target="_blank"
         rel="noreferrer"
         variant="primary"

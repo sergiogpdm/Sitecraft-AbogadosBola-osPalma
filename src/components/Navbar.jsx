@@ -4,12 +4,13 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import Container from "./Container.jsx";
 import Button from "./ui/Button.jsx";
+import { useSiteConfig } from "../context/SiteConfigContext.jsx";
 
 const navLink = ({ isActive }) =>
-  "text-sm transition " +
-  (isActive ? "text-white" : "text-zinc-300 hover:text-white");
+  "text-sm transition " + (isActive ? "text-white" : "text-zinc-300 hover:text-white");
 
 export default function Navbar() {
+  const { config } = useSiteConfig();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -20,9 +21,7 @@ export default function Navbar() {
     <motion.header
       className={[
         "fixed inset-x-0 top-0 z-50",
-        scrolled
-          ? "border-b border-white/10 bg-zinc-950/70 backdrop-blur-xl"
-          : "bg-transparent",
+        scrolled ? "border-b border-[var(--border)] bg-zinc-950/70 backdrop-blur-xl" : "bg-transparent",
       ].join(" ")}
       initial={{ y: -8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -30,37 +29,37 @@ export default function Navbar() {
     >
       <Container className="h-16 flex items-center justify-between">
         <Link to="/" className="group inline-flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5">
-            🍕
+          <span className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--border)] bg-[var(--card)]">
+            {config.brand.emojiLogo}
           </span>
           <div className="leading-tight">
-            <div className="text-sm font-semibold tracking-wide">Pizzería</div>
-            <div className="text-[11px] text-zinc-400 -mt-0.5">
-              Masa lenta • Horno fuerte
-            </div>
+            <div className="text-sm font-semibold tracking-wide">{config.brand.name}</div>
+            <div className="text-[11px] text-zinc-400 -mt-0.5">{config.brand.tagline}</div>
           </div>
         </Link>
 
         <nav className="hidden md:flex items-center gap-7">
           <NavLink to="/" className={navLink}>Inicio</NavLink>
-          <NavLink to="/carta" className={navLink}>Carta</NavLink>
-          <NavLink to="/contacto" className={navLink}>Contacto</NavLink>
+          {config.pages.menu?.enabled ? <NavLink to="/carta" className={navLink}>Carta</NavLink> : null}
+          {config.pages.contact?.enabled ? <NavLink to="/contacto" className={navLink}>Contacto</NavLink> : null}
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
-          <Button
-            as="a"
-            href="https://wa.me/34000000000"
-            target="_blank"
-            rel="noreferrer"
-            variant="primary"
-          >
-            Pedir por WhatsApp
-          </Button>
+          {config.layout.showNavbarCta ? (
+            <Button
+              as="a"
+              href={config.links.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              variant="primary"
+            >
+              Pedir por WhatsApp
+            </Button>
+          ) : null}
         </div>
 
         <button
-          className="md:hidden rounded-xl border border-white/10 bg-white/5 p-2"
+          className="md:hidden rounded-xl border border-[var(--border)] bg-[var(--card)] p-2"
           onClick={() => setOpen((v) => !v)}
           aria-label="Abrir menú"
         >
@@ -69,24 +68,34 @@ export default function Navbar() {
       </Container>
 
       {open ? (
-        <div className="md:hidden border-t border-white/10 bg-zinc-950/80 backdrop-blur-xl">
+        <div className="md:hidden border-t border-[var(--border)] bg-zinc-950/80 backdrop-blur-xl">
           <Container className="py-4 flex flex-col gap-3">
             <NavLink onClick={() => setOpen(false)} to="/" className={navLink}>Inicio</NavLink>
-            <NavLink onClick={() => setOpen(false)} to="/carta" className={navLink}>Carta</NavLink>
-            <NavLink onClick={() => setOpen(false)} to="/contacto" className={navLink}>Contacto</NavLink>
+            {config.pages.menu?.enabled ? (
+              <NavLink onClick={() => setOpen(false)} to="/carta" className={navLink}>
+                Carta
+              </NavLink>
+            ) : null}
+            {config.pages.contact?.enabled ? (
+              <NavLink onClick={() => setOpen(false)} to="/contacto" className={navLink}>
+                Contacto
+              </NavLink>
+            ) : null}
 
-            <div className="pt-2">
-              <Button
-                as="a"
-                href="https://wa.me/34000000000"
-                target="_blank"
-                rel="noreferrer"
-                className="w-full"
-                variant="primary"
-              >
-                Pedir por WhatsApp
-              </Button>
-            </div>
+            {config.layout.showNavbarCta ? (
+              <div className="pt-2">
+                <Button
+                  as="a"
+                  href={config.links.whatsapp}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full"
+                  variant="primary"
+                >
+                  Pedir por WhatsApp
+                </Button>
+              </div>
+            ) : null}
           </Container>
         </div>
       ) : null}
