@@ -1,25 +1,26 @@
-# 🍕 Gondola Web — Plantilla Web Personalizable
+# Sitecraft — Configurable Web Template Engine ⚡
 
-Gondola Web es una **plantilla web moderna, visual y altamente personalizable**, pensada para negocios locales (pizzerías, restaurantes, cafeterías, tiendas, etc.) que quieren una web que **impacte, convierta y se pueda reutilizar fácilmente**.
+**Sitecraft** es una plantilla web moderna y reutilizable para negocios locales (pizzerías, restaurantes, cafeterías, tiendas, etc.).  
+Está pensada para construir webs que **impactan, convierten y se personalizan rápido** usando un sistema de configuración + presets visuales.
 
-El proyecto está construido con **React + Vite + Tailwind**, e incluye un **sistema de configuración centralizado**, presets visuales y un **panel interno de personalización**.
+> **Craft once. Launch everywhere.**
 
 ---
 
-## ✨ Características principales
+## ✨ Características
 
 - ⚡ **React + Vite** (rápido y moderno)
-- 🎨 **Presets completos de diseño** (colores, radios, sombras, densidad, tipografías)
-- 🧩 **Secciones activables/desactivables** desde configuración
-- 🧠 **Configuración central (`site.config.js`)**
-- 🛠️ **Panel visual `/customize`** para personalizar sin tocar código
-- 📤 **Export / Import de configuración**
-- 📱 Diseño **mobile-first** y orientado a conversión
-- 🔌 Preparada para conectar **API + BBDD** (carta dinámica, app admin)
+- 🎨 **Presets completos** (paleta, radius, sombras, blur, densidad, tipografías, glows)
+- 🧩 **Secciones enchufables** (activar/desactivar desde configuración)
+- 🧠 **Configuración central** (`src/config/site.config.js`)
+- 🛠️ **Panel visual** `/customize` para personalizar sin tocar código
+- 📤 **Export / Import de configuración** (copiar/pegar y listo)
+- 📱 Diseño **mobile-first** orientado a conversión
+- 🔌 Preparada para conectar **API + BBDD** (carta dinámica + app admin)
 
 ---
 
-## 🧱 Stack tecnológico
+## 🧱 Stack
 
 - **React**
 - **Vite**
@@ -30,14 +31,14 @@ El proyecto está construido con **React + Vite + Tailwind**, e incluye un **sis
 
 ---
 
-## 📁 Estructura del proyecto
+## 📁 Estructura
 
 ```txt
 src/
  ├─ components/
- │   ├─ ui/                 # Botones y componentes base
+ │   ├─ ui/                 # Componentes base (Button, etc.)
  │   ├─ sections/           # Secciones enchufables (Hero, Benefits, etc.)
- │   └─ Layout, Navbar, Footer…
+ │   └─ Navbar, Footer, Layout…
  │
  ├─ pages/
  │   ├─ Home.jsx
