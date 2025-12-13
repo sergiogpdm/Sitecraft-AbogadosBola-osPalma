@@ -5,6 +5,4 @@
 @tailwind utilities;
 
 :root { color-scheme: dark; }
-
 html, body, #root { height: 100%; }
-body { background: var(--bg); color: var(--text); }
