@@ -1,7 +1,8 @@
 :root{
-  --bg:#09090b;
-  --text:#f4f4f5;
-  --muted:#a1a1aa;
+  /* Defaults (se sobreescriben por preset/overrides) */
+  --bg: #09090b;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
 
   --card: rgba(255,255,255,0.05);
   --border: rgba(255,255,255,0.10);
@@ -10,6 +11,7 @@
   --accentB:#f97316;
 
   --radius:24px;
+  --btnRadius: 999px; /* pill por defecto */
   --cardBlur:18px;
 
   --shadowY: 20px;
@@ -19,9 +21,33 @@
   --heroPattern: radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_55%);
   --glowA: rgba(251,191,36,0.20);
   --glowB: rgba(249,115,22,0.20);
+  --glowBlur: 64px;
 
   --fontDisplay: system;
   --fontBody: system;
+}
+
+/* Scheme: DARK */
+[data-scheme="dark"]{
+  color-scheme: dark;
+}
+
+/* Scheme: LIGHT (valores base “claros”; presets/overrides aún mandan) */
+[data-scheme="light"]{
+  color-scheme: light;
+
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --muted: #475569;
+
+  --card: rgba(255,255,255,0.75);
+  --border: rgba(15,23,42,0.10);
+
+  --shadowOpacity: 0.12;
+
+  --heroPattern: radial-gradient(circle_at_top,rgba(15,23,42,0.07),transparent_55%);
+  --glowA: rgba(15,23,42,0.10);
+  --glowB: rgba(100,116,139,0.10);
 }
 
 body{

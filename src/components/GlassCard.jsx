@@ -7,10 +7,7 @@ export default function GlassCard({ className = "", children }) {
         WebkitBackdropFilter: `blur(var(--cardBlur))`,
         boxShadow: `0 var(--shadowY) var(--shadowBlur) rgba(0,0,0,var(--shadowOpacity))`,
       }}
-      className={[
-        "border bg-[var(--card)] border-[var(--border)]",
-        className,
-      ].join(" ")}
+      className={["border bg-[var(--card)] border-[var(--border)]", className].join(" ")}
     >
       {children}
     </div>

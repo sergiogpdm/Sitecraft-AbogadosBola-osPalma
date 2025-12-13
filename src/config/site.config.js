@@ -24,6 +24,8 @@ export const siteConfig = {
     // Modo UI (estilo de cards/blur/border)
     mode: "glass", // glass | solid | minimal
 
+    scheme: "auto",
+
     // Overrides (ajustes finos). Solo se aplican los que pongas.
     overrides: {
       // Ejemplos:
