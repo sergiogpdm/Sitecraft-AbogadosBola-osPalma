@@ -3,40 +3,83 @@ import GlassCard from "../GlassCard.jsx";
 import Button from "../ui/Button.jsx";
 import { useSiteConfig } from "../../context/SiteConfigContext.jsx";
 
-export default function PromoCtaSection() {
+export default function PromoCtaSection({ data, preview = false }) {
   const { config } = useSiteConfig();
-  const c = config.copy.promo;
+  const promo = data ?? config?.copy?.promo;
+
+  if (!promo) return null;
+
+  const { kicker, title, desc, primaryCta, secondaryCta } = promo;
+
+  const handlePrimary = (e) => {
+    if (preview) return e.preventDefault();
+    const maps = config?.links?.maps;
+    if (maps) window.open(maps, "_blank", "noopener,noreferrer");
+  };
+
+  const handleSecondary = (e) => {
+    if (preview) return e.preventDefault();
+    // Normalmente esto va a /menu o scroll a la carta
+    const el = document.getElementById("menu");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-14 sm:py-16">
       <Container>
-        <GlassCard className="p-8 sm:p-10 relative overflow-hidden">
-          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[var(--accentA)]/20 blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-[var(--accentB)]/20 blur-3xl" />
-          <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div>
-              <div className="text-xs text-zinc-300/80">{c.kicker}</div>
-              <h3 className="mt-2 text-2xl sm:text-3xl font-semibold">{c.title}</h3>
-              <p className="mt-3 text-zinc-300 leading-relaxed">{c.desc}</p>
-            </div>
+        <GlassCard className="relative overflow-hidden p-6 sm:p-8">
+          {/* Fondo glow suave */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div
+              className="absolute -top-24 -left-24 h-72 w-72 rounded-full"
+              style={{
+                background: "var(--glowA)",
+                filter: `blur(var(--glowBlur, 64px))`,
+              }}
+            />
+            <div
+              className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full"
+              style={{
+                background: "var(--glowB)",
+                filter: `blur(var(--glowBlur, 64px))`,
+              }}
+            />
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 lg:justify-end">
-              <Button
-                as="a"
-                href={config.links.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                variant="primary"
-              >
-                {c.primaryCta}
-              </Button>
+          <div className="relative">
+            {kicker ? (
+              <div className="text-xs font-semibold tracking-wide text-[var(--muted)]">
+                {kicker}
+              </div>
+            ) : null}
 
-              {config.pages.contact?.enabled ? (
-                <Button as="a" href="/contacto" variant="default">
-                  {c.secondaryCta}
-                </Button>
-              ) : null}
-            </div>
+            {title ? (
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                {title}
+              </h2>
+            ) : null}
+
+            {desc ? (
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--muted)] sm:text-base">
+                {desc}
+              </p>
+            ) : null}
+
+            {(primaryCta || secondaryCta) ? (
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                {primaryCta ? (
+                  <Button variant="primary" onClick={handlePrimary}>
+                    {primaryCta}
+                  </Button>
+                ) : null}
+
+                {secondaryCta ? (
+                  <Button variant="default" onClick={handleSecondary}>
+                    {secondaryCta}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </GlassCard>
       </Container>
