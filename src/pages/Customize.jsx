@@ -94,6 +94,7 @@ export default function Customize() {
   return (
     <div className="py-16">
       <Container className="grid gap-4 lg:grid-cols-[420px_1fr]">
+        {/* LEFT */}
         <GlassCard className="p-6 space-y-6">
           <div>
             <h1 className="text-xl font-semibold">Customize</h1>
@@ -177,7 +178,7 @@ export default function Customize() {
                 </select>
               </div>
 
-              {/* ✅ NUEVO: Secciones Home (enabled + orden) */}
+              {/* Secciones Home */}
               <div className="space-y-2">
                 <div className="text-sm font-semibold">Secciones (Home)</div>
                 <div className="text-xs text-[var(--muted)]">
@@ -262,67 +263,27 @@ export default function Customize() {
                 <div className="text-sm font-semibold">Tema — overrides</div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField
-                    label="Accent A"
-                    value={getOverride(config, "--accentA")}
-                    onChange={(v) => setOverride(setConfig, "--accentA", v)}
-                  />
-                  <ColorField
-                    label="Accent B"
-                    value={getOverride(config, "--accentB")}
-                    onChange={(v) => setOverride(setConfig, "--accentB", v)}
-                  />
+                  <ColorField label="Accent A" value={getOverride(config, "--accentA")} onChange={(v) => setOverride(setConfig, "--accentA", v)} />
+                  <ColorField label="Accent B" value={getOverride(config, "--accentB")} onChange={(v) => setOverride(setConfig, "--accentB", v)} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField
-                    label="Background"
-                    value={getOverride(config, "--bg")}
-                    onChange={(v) => setOverride(setConfig, "--bg", v)}
-                  />
-                  <ColorField
-                    label="Text"
-                    value={getOverride(config, "--text")}
-                    onChange={(v) => setOverride(setConfig, "--text", v)}
-                  />
+                  <ColorField label="Background" value={getOverride(config, "--bg")} onChange={(v) => setOverride(setConfig, "--bg", v)} />
+                  <ColorField label="Text" value={getOverride(config, "--text")} onChange={(v) => setOverride(setConfig, "--text", v)} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField
-                    label="Muted"
-                    value={getOverride(config, "--muted")}
-                    onChange={(v) => setOverride(setConfig, "--muted", v)}
-                  />
-                  <ColorField
-                    label="Border"
-                    value={getOverride(config, "--border")}
-                    onChange={(v) => setOverride(setConfig, "--border", v)}
-                  />
+                  <ColorField label="Muted" value={getOverride(config, "--muted")} onChange={(v) => setOverride(setConfig, "--muted", v)} />
+                  <ColorField label="Border" value={getOverride(config, "--border")} onChange={(v) => setOverride(setConfig, "--border", v)} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField
-                    label="Card bg"
-                    value={getOverride(config, "--card")}
-                    onChange={(v) => setOverride(setConfig, "--card", v)}
-                  />
-                  <NumberField
-                    label="Radius (px)"
-                    value={stripPx(getOverride(config, "--radius"))}
-                    onChange={(v) =>
-                      setOverride(setConfig, "--radius", v ? `${v}px` : "")
-                    }
-                  />
+                  <ColorField label="Card bg" value={getOverride(config, "--card")} onChange={(v) => setOverride(setConfig, "--card", v)} />
+                  <NumberField label="Radius (px)" value={stripPx(getOverride(config, "--radius"))} onChange={(v) => setOverride(setConfig, "--radius", v ? `${v}px` : "")} />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <NumberField
-                    label="Card blur (px)"
-                    value={stripPx(getOverride(config, "--cardBlur"))}
-                    onChange={(v) =>
-                      setOverride(setConfig, "--cardBlur", v ? `${v}px` : "")
-                    }
-                  />
+                  <NumberField label="Card blur (px)" value={stripPx(getOverride(config, "--cardBlur"))} onChange={(v) => setOverride(setConfig, "--cardBlur", v ? `${v}px` : "")} />
                   <select
                     className="mt-5 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm outline-none"
                     value={getOverride(config, "--btnRadius") || "999px"}
@@ -336,82 +297,33 @@ export default function Customize() {
 
                 <div className="space-y-2">
                   <div className="text-xs text-zinc-400">Sombras</div>
-                  <Slider
-                    label="Shadow Y"
-                    min={0}
-                    max={60}
-                    value={toNum(stripPx(getOverride(config, "--shadowY")), 20)}
-                    onChange={(v) => setOverride(setConfig, "--shadowY", `${v}px`)}
-                  />
-                  <Slider
-                    label="Shadow Blur"
-                    min={0}
-                    max={200}
-                    value={toNum(stripPx(getOverride(config, "--shadowBlur")), 80)}
-                    onChange={(v) => setOverride(setConfig, "--shadowBlur", `${v}px`)}
-                  />
-                  <Slider
-                    label="Shadow Opacity"
-                    min={0}
-                    max={0.9}
-                    step={0.01}
-                    value={toNum(getOverride(config, "--shadowOpacity"), 0.45)}
-                    onChange={(v) => setOverride(setConfig, "--shadowOpacity", String(v))}
-                  />
+                  <Slider label="Shadow Y" min={0} max={60} value={toNum(stripPx(getOverride(config, "--shadowY")), 20)} onChange={(v) => setOverride(setConfig, "--shadowY", `${v}px`)} />
+                  <Slider label="Shadow Blur" min={0} max={200} value={toNum(stripPx(getOverride(config, "--shadowBlur")), 80)} onChange={(v) => setOverride(setConfig, "--shadowBlur", `${v}px`)} />
+                  <Slider label="Shadow Opacity" min={0} max={0.9} step={0.01} value={toNum(getOverride(config, "--shadowOpacity"), 0.45)} onChange={(v) => setOverride(setConfig, "--shadowOpacity", String(v))} />
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-xs text-zinc-400">Hero / Glows</div>
-                  <Slider
-                    label="Glow Blur"
-                    min={20}
-                    max={120}
-                    value={toNum(stripPx(getOverride(config, "--glowBlur")), 64)}
-                    onChange={(v) => setOverride(setConfig, "--glowBlur", `${v}px`)}
-                  />
-                  <ColorField
-                    label="Glow A"
-                    value={getOverride(config, "--glowA")}
-                    onChange={(v) => setOverride(setConfig, "--glowA", v)}
-                  />
-                  <ColorField
-                    label="Glow B"
-                    value={getOverride(config, "--glowB")}
-                    onChange={(v) => setOverride(setConfig, "--glowB", v)}
-                  />
+                  <Slider label="Glow Blur" min={20} max={120} value={toNum(stripPx(getOverride(config, "--glowBlur")), 64)} onChange={(v) => setOverride(setConfig, "--glowBlur", `${v}px`)} />
+                  <ColorField label="Glow A" value={getOverride(config, "--glowA")} onChange={(v) => setOverride(setConfig, "--glowA", v)} />
+                  <ColorField label="Glow B" value={getOverride(config, "--glowB")} onChange={(v) => setOverride(setConfig, "--glowB", v)} />
                   <label className="flex items-center gap-3 text-sm">
                     <input
                       type="checkbox"
                       checked={(getOverride(config, "--heroPattern") || "") !== "none"}
-                      onChange={(e) =>
-                        setOverride(
-                          setConfig,
-                          "--heroPattern",
-                          e.target.checked ? "" : "none"
-                        )
-                      }
+                      onChange={(e) => setOverride(setConfig, "--heroPattern", e.target.checked ? "" : "none")}
                     />
                     Patrón hero (on/off)
                   </label>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3">
-                  <FontSelect
-                    label="Font Display (títulos)"
-                    value={getOverride(config, "--fontDisplay")}
-                    onChange={(v) => setOverride(setConfig, "--fontDisplay", v)}
-                  />
-                  <FontSelect
-                    label="Font Body (texto)"
-                    value={getOverride(config, "--fontBody")}
-                    onChange={(v) => setOverride(setConfig, "--fontBody", v)}
-                  />
+                  <FontSelect label="Font Display (títulos)" value={getOverride(config, "--fontDisplay")} onChange={(v) => setOverride(setConfig, "--fontDisplay", v)} />
+                  <FontSelect label="Font Body (texto)" value={getOverride(config, "--fontBody")} onChange={(v) => setOverride(setConfig, "--fontBody", v)} />
                 </div>
 
                 <div className="flex gap-2">
-                  <Button variant="default" onClick={resetOverrides}>
-                    Reset overrides
-                  </Button>
+                  <Button variant="default" onClick={resetOverrides}>Reset overrides</Button>
                 </div>
               </div>
             </div>
@@ -441,48 +353,11 @@ export default function Customize() {
               <PromoEditor config={config} setConfig={setConfig} />
             </div>
           ) : null}
-
-          {/* Export/Import always */}
-          <div className="border-t border-[var(--border)] pt-5 space-y-3">
-            <div className="text-sm font-semibold">Export / Import</div>
-
-            <div className="flex gap-3">
-              <Button variant="primary" onClick={exportToClipboard}>
-                Exportar config
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => {
-                  const str = toConfigFileString(config);
-                  setImportText(str);
-                  setMsg("✅ Export generado en el cuadro de texto.");
-                  setTimeout(() => setMsg(""), 2000);
-                }}
-              >
-                Ver export aquí
-              </Button>
-            </div>
-
-            <textarea
-              className="h-44 w-full resize-none rounded-2xl border border-[var(--border)] bg-[var(--card)] p-3 font-mono text-xs outline-none"
-              value={importText}
-              onChange={(e) => setImportText(e.target.value)}
-              placeholder="Pega aquí el export (o JSON) para importar…"
-            />
-
-            <div className="flex gap-3">
-              <Button variant="primary" onClick={importFromText}>
-                Importar
-              </Button>
-              <Button variant="default" onClick={() => setImportText("")}>
-                Limpiar
-              </Button>
-            </div>
-          </div>
         </GlassCard>
 
-        {/* RIGHT: preview */}
+        {/* RIGHT */}
         <div className="space-y-4">
+          {/* Preview */}
           {active === "hero" ? (
             <ComponentPreview title={`Preview — ${activeLabel}`}>
               <div className="bg-[var(--bg)]">
@@ -518,6 +393,55 @@ export default function Customize() {
               </div>
             </GlassCard>
           )}
+
+          {/* Export / Import (debajo del preview) */}
+          <GlassCard className="p-6 space-y-3">
+            <div className="text-sm font-semibold">Export / Import</div>
+
+            <div className="text-xs text-[var(--muted)]">
+              Guarda esta configuración o reutilízala en otro proyecto Sitecraft.
+            </div>
+
+            {msg ? (
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-3 text-sm">
+                {msg}
+              </div>
+            ) : null}
+
+            <div className="flex gap-3">
+              <Button variant="primary" onClick={exportToClipboard}>
+                Exportar config
+              </Button>
+
+              <Button
+                variant="default"
+                onClick={() => {
+                  const str = toConfigFileString(config);
+                  setImportText(str);
+                  setMsg("✅ Export generado en el cuadro de texto.");
+                  setTimeout(() => setMsg(""), 2000);
+                }}
+              >
+                Ver export
+              </Button>
+            </div>
+
+            <textarea
+              className="h-40 w-full resize-none rounded-2xl border border-[var(--border)] bg-[var(--card)] p-3 font-mono text-xs outline-none"
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              placeholder="Pega aquí un export para importar la configuración…"
+            />
+
+            <div className="flex gap-3">
+              <Button variant="primary" onClick={importFromText}>
+                Importar
+              </Button>
+              <Button variant="default" onClick={() => setImportText("")}>
+                Limpiar
+              </Button>
+            </div>
+          </GlassCard>
         </div>
       </Container>
     </div>
@@ -608,6 +532,7 @@ function FontSelect({ label, value, onChange }) {
 function stripPx(v) {
   return String(v || "").replace("px", "");
 }
+
 function toNum(v, fallback) {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
