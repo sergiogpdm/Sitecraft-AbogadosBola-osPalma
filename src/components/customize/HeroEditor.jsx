@@ -182,13 +182,54 @@ export default function HeroEditor({ config, setConfig }) {
     <div className="space-y-5">
       <h3 className="text-sm font-semibold">Hero</h3>
 
-      {/* ✅ Selector de diseño */}
+      {/* ✅ Diseño/Plantilla del Hero */}
       <Select
         label="Diseño del Hero"
         value={hero.variant || "splitMediaCard"}
         onChange={(v) => setHero({ variant: v })}
         options={HERO_VARIANTS.map((v) => [v.id, v.label])}
       />
+
+      {/* ✅ Fondo del Hero */}
+      <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+        <div className="text-sm font-semibold">Fondo del Hero</div>
+
+        <Select
+          label="Patrón de luces"
+          value={hero.background?.style || "corners"}
+          onChange={(v) =>
+            setHero({
+              background: { ...(hero.background || {}), style: v },
+            })
+          }
+          options={[
+            ["corners", "2 glows (esquinas)"],
+            ["center", "Glow centrado"],
+            ["top", "Glow arriba"],
+            ["diagonal", "Diagonal"],
+            ["ring", "Ring (halo)"],
+            ["bars", "Bars (laterales)"],
+            ["none", "Sin glows"],
+          ]}
+        />
+
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={(hero.background?.pattern ?? true) !== false}
+            onChange={(e) =>
+              setHero({
+                background: { ...(hero.background || {}), pattern: e.target.checked },
+              })
+            }
+          />
+          Patrón (texture) ON/OFF
+        </label>
+
+        <div className="text-xs text-[var(--muted)]">
+          Colores y blur vienen del tema: <code>--glowA</code>, <code>--glowB</code>, <code>--glowBlur</code>.
+        </div>
+      </div>
 
       <Field label="Badge" value={hero.badge} onChange={(v) => setHero({ badge: v })} />
       <Field label="Título A" value={hero.titleA} onChange={(v) => setHero({ titleA: v })} />
@@ -296,9 +337,7 @@ export default function HeroEditor({ config, setConfig }) {
               </label>
 
               <div className="flex gap-2">
-                <Button variant="default" onClick={() => setVisual({ imageSrc: "" })}>
-                  Quitar imagen
-                </Button>
+                <Button variant="default" onClick={() => setVisual({ imageSrc: "" })}>Quitar imagen</Button>
               </div>
             </div>
 
@@ -341,7 +380,7 @@ export default function HeroEditor({ config, setConfig }) {
         {showQI ? (
           <>
             <div className="text-xs text-[var(--muted)]">
-              Icon keys sugeridas: <code>clock</code>, <code>map</code>, <code>phone</code>, <code>whatsapp</code>, <code>truck</code>, <code>card</code>, <code>star</code>
+              Icon keys: <code>clock</code>, <code>map</code>, <code>phone</code>, <code>whatsapp</code>, <code>truck</code>, <code>card</code>, <code>star</code>
             </div>
 
             <div className="flex items-center justify-between">

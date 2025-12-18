@@ -1,5 +1,4 @@
 export function normalizeCta(cta, fallbackNewTab) {
-  // legacy: string
   if (typeof cta === "string") {
     return {
       label: cta,
@@ -11,7 +10,6 @@ export function normalizeCta(cta, fallbackNewTab) {
     };
   }
 
-  // object
   return {
     label: cta?.label ?? "",
     type: cta?.type ?? "link",
@@ -25,7 +23,6 @@ export function normalizeCta(cta, fallbackNewTab) {
 export function buildHrefFromCta(cta, config) {
   const t = String(cta?.type || "link").toLowerCase();
 
-  // explicit href always wins
   if (cta?.href) return cta.href;
 
   if (t === "phone") {

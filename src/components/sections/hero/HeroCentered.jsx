@@ -3,13 +3,23 @@ import Button from "../../ui/Button.jsx";
 import Container from "../../Container.jsx";
 import GlassCard from "../../GlassCard.jsx";
 import { useSiteConfig } from "../../../context/SiteConfigContext.jsx";
+import HeroBackdrop from "./HeroBackdrop.jsx";
 import { normalizeCta, buildHrefFromCta, navigateSmart, iconFor } from "./heroUtils.js";
 
 export default function HeroCentered({ data, preview = false }) {
   const { config } = useSiteConfig();
   const hero = data;
 
-  const { badge, titleA, titleHighlight, titleB, subtitle, visual: visualRaw, quickInfo: qiRaw } = hero;
+  const {
+    badge,
+    titleA,
+    titleHighlight,
+    titleB,
+    subtitle,
+    stats = [],
+    visual: visualRaw,
+    quickInfo: qiRaw,
+  } = hero;
 
   const visual = visualRaw || {};
   const showVisual = visual.enabled !== false;
@@ -18,14 +28,14 @@ export default function HeroCentered({ data, preview = false }) {
   const showQI = quickInfo.enabled !== false;
   const qiItems = Array.isArray(quickInfo.items) ? quickInfo.items : [];
 
+  const safeStats = Array.isArray(stats) ? stats : [];
+
   const primary = normalizeCta(hero.primaryCta, false);
   const secondary = normalizeCta(hero.secondaryCta, true);
 
   const handle = (cta) => (e) => {
     const href = buildHrefFromCta(cta, config);
     if (href) return navigateSmart({ e, href, newTab: !!cta.newTab, preview });
-
-    // fallback: scroll #menu
     if (preview) return e.preventDefault();
     const el = document.getElementById("menu");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -34,15 +44,7 @@ export default function HeroCentered({ data, preview = false }) {
   return (
     <section className="relative overflow-hidden py-16 sm:py-20">
       <div className="absolute inset-0">
-        <div
-          className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full"
-          style={{ background: "var(--glowA)", filter: `blur(var(--glowBlur, 64px))` }}
-        />
-        <div
-          className="absolute -bottom-40 -right-40 h-[520px] w-[520px] rounded-full"
-          style={{ background: "var(--glowB)", filter: `blur(var(--glowBlur, 64px))` }}
-        />
-        <div className="absolute inset-0" style={{ background: "var(--heroPattern)" }} />
+        <HeroBackdrop bg={hero.background} />
       </div>
 
       <Container className="relative">
@@ -110,6 +112,21 @@ export default function HeroCentered({ data, preview = false }) {
                       {it?.value ?? ""}
                     </div>
                   </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {/* ✅ Stats (añadidas) */}
+          {safeStats.length ? (
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {safeStats.map((s, idx) => (
+                <div
+                  key={`${s?.title ?? "stat"}-${idx}`}
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-left"
+                >
+                  <div className="text-sm font-semibold text-[var(--text)]">{s?.title ?? "—"}</div>
+                  <div className="mt-1 text-xs text-[var(--muted)]">{s?.desc ?? ""}</div>
                 </div>
               ))}
             </div>
