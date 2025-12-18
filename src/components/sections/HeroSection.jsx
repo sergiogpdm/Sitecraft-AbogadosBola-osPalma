@@ -17,9 +17,15 @@ export default function HeroSection({ data, preview = false }) {
     titleB,
     subtitle,
     stats = [],
+    visual: visualRaw,
   } = hero;
 
-  // ✅ Backwards compatible: string -> {label, href, newTab}
+  const visual = visualRaw || {};
+  const showVisual = visual.enabled !== false; // ✅ default ON
+  const chips = Array.isArray(visual.chips) ? visual.chips : [];
+
+  const safeStats = Array.isArray(stats) ? stats : [];
+
   const primary =
     typeof hero.primaryCta === "string"
       ? { label: hero.primaryCta, href: "", newTab: false }
@@ -30,46 +36,31 @@ export default function HeroSection({ data, preview = false }) {
       ? { label: hero.secondaryCta, href: "", newTab: true }
       : hero.secondaryCta || { label: "", href: "", newTab: true };
 
-  const safeStats = Array.isArray(stats) ? stats : [];
-
   const go = (e, href, newTab) => {
     if (preview) return e.preventDefault();
     if (!href) return;
 
-    // hash links: "#menu"
     if (href.startsWith("#")) {
       const el = document.querySelector(href);
       if (el) el.scrollIntoView({ behavior: "smooth" });
       return;
     }
 
-    // internal route: "/contact"
-    if (href.startsWith("/")) {
-      if (newTab) window.open(href, "_blank", "noopener,noreferrer");
-      else window.location.href = href;
-      return;
-    }
-
-    // external
     if (newTab) window.open(href, "_blank", "noopener,noreferrer");
     else window.location.href = href;
   };
 
   const handlePrimary = (e) => {
-    // ✅ if href exists -> go there
     if (primary?.href) return go(e, primary.href, primary.newTab);
 
-    // ✅ fallback old behavior: scroll to #menu
     if (preview) return e.preventDefault();
     const el = document.getElementById("menu");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSecondary = (e) => {
-    // ✅ if href exists -> go there
     if (secondary?.href) return go(e, secondary.href, secondary.newTab);
 
-    // ✅ fallback old behavior: open maps from config
     if (preview) return e.preventDefault();
     const maps = config?.links?.maps;
     if (maps) window.open(maps, "_blank", "noopener,noreferrer");
@@ -80,35 +71,27 @@ export default function HeroSection({ data, preview = false }) {
       <div className="absolute inset-0">
         <div
           className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full"
-          style={{
-            background: "var(--glowA)",
-            filter: `blur(var(--glowBlur, 64px))`,
-          }}
+          style={{ background: "var(--glowA)", filter: `blur(var(--glowBlur, 64px))` }}
         />
         <div
           className="absolute -bottom-40 -right-40 h-[520px] w-[520px] rounded-full"
-          style={{
-            background: "var(--glowB)",
-            filter: `blur(var(--glowBlur, 64px))`,
-          }}
+          style={{ background: "var(--glowB)", filter: `blur(var(--glowBlur, 64px))` }}
         />
-        <div
-          className="absolute inset-0"
-          style={{ background: "var(--heroPattern)" }}
-        />
+        <div className="absolute inset-0" style={{ background: "var(--heroPattern)" }} />
       </div>
 
       <Container className="relative">
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+        <div
+          className={`grid gap-6 lg:items-center ${
+            showVisual ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-1"
+          }`}
+        >
           <div>
             {badge ? (
               <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[var(--muted)]">
                 <span
                   className="h-1.5 w-1.5 rounded-full"
-                  style={{
-                    background:
-                      "linear-gradient(90deg,var(--accentA),var(--accentB))",
-                  }}
+                  style={{ background: "linear-gradient(90deg,var(--accentA),var(--accentB))" }}
                 />
                 {badge}
               </div>
@@ -124,10 +107,7 @@ export default function HeroSection({ data, preview = false }) {
               {titleHighlight ? (
                 <span
                   className="bg-clip-text text-transparent"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(90deg, var(--accentA), var(--accentB))",
-                  }}
+                  style={{ backgroundImage: "linear-gradient(90deg, var(--accentA), var(--accentB))" }}
                 >
                   {titleHighlight}
                 </span>
@@ -164,36 +144,53 @@ export default function HeroSection({ data, preview = false }) {
                     key={`${s?.title ?? "stat"}-${idx}`}
                     className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3"
                   >
-                    <div className="text-sm font-semibold text-[var(--text)]">
-                      {s?.title ?? "—"}
-                    </div>
-                    <div className="mt-1 text-xs text-[var(--muted)]">
-                      {s?.desc ?? ""}
-                    </div>
+                    <div className="text-sm font-semibold text-[var(--text)]">{s?.title ?? "—"}</div>
+                    <div className="mt-1 text-xs text-[var(--muted)]">{s?.desc ?? ""}</div>
                   </div>
                 ))}
               </div>
             ) : null}
           </div>
 
-          <GlassCard className="relative p-5 sm:p-6">
-            <div className="text-xs text-[var(--muted)]">Preview visual</div>
-            <div className="mt-3 text-sm font-semibold">Imagen / vídeo del local</div>
-            <div className="mt-2 text-xs text-[var(--muted)]">
-              (Cuando tengas assets reales, lo cambiamos por una imagen que reviente.)
-            </div>
+          {/* ✅ Visual (condicional) */}
+          {showVisual ? (
+            <GlassCard className="relative p-5 sm:p-6">
+              <div className="text-xs text-[var(--muted)]">{visual.kicker || "Preview visual"}</div>
+              <div className="mt-3 text-sm font-semibold">{visual.title || "Imagen / vídeo del local"}</div>
+              <div className="mt-2 text-xs text-[var(--muted)]">
+                {visual.desc || "(Cuando tengas assets reales, lo cambiamos por una imagen que reviente.)"}
+              </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
-                <div className="text-xs text-[var(--muted)]">Señal</div>
-                <div className="mt-1 font-semibold">Premium</div>
+              <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
+                {visual.imageSrc ? (
+                  <img
+                    src={visual.imageSrc}
+                    alt={visual.imageAlt || "Preview"}
+                    className="h-48 w-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="flex h-48 w-full items-center justify-center text-xs text-[var(--muted)]">
+                    Sin imagen (añádela desde Customize)
+                  </div>
+                )}
               </div>
-              <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
-                <div className="text-xs text-[var(--muted)]">Ritmo</div>
-                <div className="mt-1 font-semibold">Moderno</div>
-              </div>
-            </div>
-          </GlassCard>
+
+              {chips.length ? (
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {chips.slice(0, 4).map((c, idx) => (
+                    <div
+                      key={`${c?.label ?? "chip"}-${idx}`}
+                      className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
+                    >
+                      <div className="text-xs text-[var(--muted)]">{c?.label ?? "—"}</div>
+                      <div className="mt-1 font-semibold">{c?.value ?? ""}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </GlassCard>
+          ) : null}
         </div>
       </Container>
     </section>
