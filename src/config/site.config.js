@@ -16,7 +16,7 @@ export const siteConfig = {
   "theme": {
     "preset": "mintNight",
     "mode": "glass",
-    "scheme": "dark",
+    "scheme": "light",
     "overrides": {
       "--accentA": "#22c55e",
       "--accentB": "#06b6d4",
@@ -79,7 +79,11 @@ export const siteConfig = {
       "titleHighlight": "a medida",
       "titleB": "para negocios reales",
       "subtitle": "Sitecraft te permite crear, personalizar y escalar webs profesionales sin tocar código.",
-      "primaryCta": "",
+      "primaryCta": {
+        "label": "",
+        "href": "",
+        "newTab": false
+      },
       "secondaryCta": "",
       "imageHint": "Imagen real de la pizza aquí",
       "stats": [

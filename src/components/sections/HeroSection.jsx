@@ -16,20 +16,60 @@ export default function HeroSection({ data, preview = false }) {
     titleHighlight,
     titleB,
     subtitle,
-    primaryCta,
-    secondaryCta,
     stats = [],
   } = hero;
 
+  // ✅ Backwards compatible: string -> {label, href, newTab}
+  const primary =
+    typeof hero.primaryCta === "string"
+      ? { label: hero.primaryCta, href: "", newTab: false }
+      : hero.primaryCta || { label: "", href: "", newTab: false };
+
+  const secondary =
+    typeof hero.secondaryCta === "string"
+      ? { label: hero.secondaryCta, href: "", newTab: true }
+      : hero.secondaryCta || { label: "", href: "", newTab: true };
+
   const safeStats = Array.isArray(stats) ? stats : [];
 
+  const go = (e, href, newTab) => {
+    if (preview) return e.preventDefault();
+    if (!href) return;
+
+    // hash links: "#menu"
+    if (href.startsWith("#")) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    // internal route: "/contact"
+    if (href.startsWith("/")) {
+      if (newTab) window.open(href, "_blank", "noopener,noreferrer");
+      else window.location.href = href;
+      return;
+    }
+
+    // external
+    if (newTab) window.open(href, "_blank", "noopener,noreferrer");
+    else window.location.href = href;
+  };
+
   const handlePrimary = (e) => {
+    // ✅ if href exists -> go there
+    if (primary?.href) return go(e, primary.href, primary.newTab);
+
+    // ✅ fallback old behavior: scroll to #menu
     if (preview) return e.preventDefault();
     const el = document.getElementById("menu");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSecondary = (e) => {
+    // ✅ if href exists -> go there
+    if (secondary?.href) return go(e, secondary.href, secondary.newTab);
+
+    // ✅ fallback old behavior: open maps from config
     if (preview) return e.preventDefault();
     const maps = config?.links?.maps;
     if (maps) window.open(maps, "_blank", "noopener,noreferrer");
@@ -40,13 +80,22 @@ export default function HeroSection({ data, preview = false }) {
       <div className="absolute inset-0">
         <div
           className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full"
-          style={{ background: "var(--glowA)", filter: `blur(var(--glowBlur, 64px))` }}
+          style={{
+            background: "var(--glowA)",
+            filter: `blur(var(--glowBlur, 64px))`,
+          }}
         />
         <div
           className="absolute -bottom-40 -right-40 h-[520px] w-[520px] rounded-full"
-          style={{ background: "var(--glowB)", filter: `blur(var(--glowBlur, 64px))` }}
+          style={{
+            background: "var(--glowB)",
+            filter: `blur(var(--glowBlur, 64px))`,
+          }}
         />
-        <div className="absolute inset-0" style={{ background: "var(--heroPattern)" }} />
+        <div
+          className="absolute inset-0"
+          style={{ background: "var(--heroPattern)" }}
+        />
       </div>
 
       <Container className="relative">
@@ -56,7 +105,10 @@ export default function HeroSection({ data, preview = false }) {
               <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[var(--muted)]">
                 <span
                   className="h-1.5 w-1.5 rounded-full"
-                  style={{ background: "linear-gradient(90deg,var(--accentA),var(--accentB))" }}
+                  style={{
+                    background:
+                      "linear-gradient(90deg,var(--accentA),var(--accentB))",
+                  }}
                 />
                 {badge}
               </div>
@@ -72,7 +124,10 @@ export default function HeroSection({ data, preview = false }) {
               {titleHighlight ? (
                 <span
                   className="bg-clip-text text-transparent"
-                  style={{ backgroundImage: "linear-gradient(90deg, var(--accentA), var(--accentB))" }}
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(90deg, var(--accentA), var(--accentB))",
+                  }}
                 >
                   {titleHighlight}
                 </span>
@@ -86,16 +141,17 @@ export default function HeroSection({ data, preview = false }) {
               </p>
             ) : null}
 
-            {(primaryCta || secondaryCta) ? (
+            {(primary?.label || secondary?.label) ? (
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                {primaryCta ? (
+                {primary?.label ? (
                   <Button variant="primary" onClick={handlePrimary}>
-                    {primaryCta}
+                    {primary.label}
                   </Button>
                 ) : null}
-                {secondaryCta ? (
+
+                {secondary?.label ? (
                   <Button variant="default" onClick={handleSecondary}>
-                    {secondaryCta}
+                    {secondary.label}
                   </Button>
                 ) : null}
               </div>

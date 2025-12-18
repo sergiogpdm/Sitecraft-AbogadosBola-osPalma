@@ -1,45 +1,73 @@
 import Button from "../ui/Button.jsx";
 
 export default function HeroEditor({ config, setConfig }) {
-  const hero = config.copy.hero;
+  const hero = config?.copy?.hero ?? {};
 
-  const setHero = (patch) => {
-    setConfig((p) => ({
-      ...p,
-      copy: {
-        ...p.copy,
-        hero: {
-          ...p.copy.hero,
-          ...patch,
+  const setHero = (patchOrFn) => {
+    setConfig((prev) => {
+      const prevHero = prev?.copy?.hero ?? {};
+      const patch =
+        typeof patchOrFn === "function" ? patchOrFn(prevHero) : patchOrFn;
+
+      return {
+        ...prev,
+        copy: {
+          ...(prev.copy || {}),
+          hero: {
+            ...prevHero,
+            ...patch,
+          },
         },
-      },
-    }));
+      };
+    });
   };
 
+  // ✅ Backwards compatible: string -> {label, href, newTab}
+  const primary =
+    typeof hero.primaryCta === "string"
+      ? { label: hero.primaryCta, href: "", newTab: false }
+      : hero.primaryCta || { label: "", href: "", newTab: false };
+
+  const secondary =
+    typeof hero.secondaryCta === "string"
+      ? { label: hero.secondaryCta, href: "", newTab: true }
+      : hero.secondaryCta || { label: "", href: "", newTab: true };
+
+  const setPrimary = (patch) => setHero({ primaryCta: { ...primary, ...patch } });
+  const setSecondary = (patch) => setHero({ secondaryCta: { ...secondary, ...patch } });
+
   const setStat = (idx, patch) => {
-    const stats = Array.isArray(hero.stats) ? [...hero.stats] : [];
-    stats[idx] = { ...(stats[idx] || {}), ...patch };
-    setHero({ stats });
+    setHero((prevHero) => {
+      const stats = Array.isArray(prevHero.stats) ? [...prevHero.stats] : [];
+      stats[idx] = { ...(stats[idx] || {}), ...patch };
+      return { stats };
+    });
   };
 
   const addStat = () => {
-    const stats = Array.isArray(hero.stats) ? [...hero.stats] : [];
-    stats.push({ title: "Nuevo", desc: "Descripción" });
-    setHero({ stats });
+    setHero((prevHero) => {
+      const stats = Array.isArray(prevHero.stats) ? [...prevHero.stats] : [];
+      stats.push({ title: "Nuevo", desc: "Descripción" });
+      return { stats };
+    });
   };
 
   const removeStat = (idx) => {
-    const stats = Array.isArray(hero.stats) ? [...hero.stats] : [];
-    stats.splice(idx, 1);
-    setHero({ stats });
+    setHero((prevHero) => {
+      const stats = Array.isArray(prevHero.stats) ? [...prevHero.stats] : [];
+      stats.splice(idx, 1);
+      return { stats };
+    });
   };
 
   const moveStat = (idx, dir) => {
-    const stats = Array.isArray(hero.stats) ? [...hero.stats] : [];
-    const j = idx + dir;
-    if (j < 0 || j >= stats.length) return;
-    [stats[idx], stats[j]] = [stats[j], stats[idx]];
-    setHero({ stats });
+    setHero((prevHero) => {
+      const stats = Array.isArray(prevHero.stats) ? [...prevHero.stats] : [];
+      const j = idx + dir;
+      if (j < 0 || j >= stats.length) return {};
+      [stats[idx], stats[j]] = [stats[j], stats[idx]];
+      return { stats };
+    });
   };
 
   return (
@@ -48,16 +76,49 @@ export default function HeroEditor({ config, setConfig }) {
 
       <Field label="Badge" value={hero.badge} onChange={(v) => setHero({ badge: v })} />
       <Field label="Título A" value={hero.titleA} onChange={(v) => setHero({ titleA: v })} />
-      <Field label="Título Highlight" value={hero.titleHighlight} onChange={(v) => setHero({ titleHighlight: v })} />
+      <Field
+        label="Título Highlight"
+        value={hero.titleHighlight}
+        onChange={(v) => setHero({ titleHighlight: v })}
+      />
       <Field label="Título B" value={hero.titleB} onChange={(v) => setHero({ titleB: v })} />
 
       <TextArea label="Subtítulo" value={hero.subtitle} onChange={(v) => setHero({ subtitle: v })} />
 
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="CTA principal" value={hero.primaryCta} onChange={(v) => setHero({ primaryCta: v })} />
-        <Field label="CTA secundaria" value={hero.secondaryCta} onChange={(v) => setHero({ secondaryCta: v })} />
+      {/* ✅ CTAs con enlace */}
+      <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+        <div className="text-sm font-semibold">CTA principal</div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field label="Texto" value={primary.label} onChange={(v) => setPrimary({ label: v })} />
+          <Field label="Enlace (href)" value={primary.href} onChange={(v) => setPrimary({ href: v })} />
+        </div>
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={!!primary.newTab}
+            onChange={(e) => setPrimary({ newTab: e.target.checked })}
+          />
+          Abrir en nueva pestaña
+        </label>
       </div>
 
+      <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+        <div className="text-sm font-semibold">CTA secundaria</div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field label="Texto" value={secondary.label} onChange={(v) => setSecondary({ label: v })} />
+          <Field label="Enlace (href)" value={secondary.href} onChange={(v) => setSecondary({ href: v })} />
+        </div>
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={!!secondary.newTab}
+            onChange={(e) => setSecondary({ newTab: e.target.checked })}
+          />
+          Abrir en nueva pestaña
+        </label>
+      </div>
+
+      {/* Stats */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="text-sm font-semibold">Stats</div>
