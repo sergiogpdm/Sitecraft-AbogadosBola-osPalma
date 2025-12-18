@@ -18,23 +18,57 @@ export default function HeroSection({ data, preview = false }) {
     subtitle,
     stats = [],
     visual: visualRaw,
+    quickInfo: quickInfoRaw,
   } = hero;
 
   const visual = visualRaw || {};
-  const showVisual = visual.enabled !== false; // ✅ default ON
-  const chips = Array.isArray(visual.chips) ? visual.chips : [];
+  const showVisual = visual.enabled !== false;
+
+  const quickInfo = quickInfoRaw || {};
+  const showQuickInfo = quickInfo.enabled !== false;
+  const qiItems = Array.isArray(quickInfo.items) ? quickInfo.items : [];
 
   const safeStats = Array.isArray(stats) ? stats : [];
 
+  // --- CTA Normalization (string legacy -> object) ---
   const primary =
     typeof hero.primaryCta === "string"
-      ? { label: hero.primaryCta, href: "", newTab: false }
-      : hero.primaryCta || { label: "", href: "", newTab: false };
+      ? { label: hero.primaryCta, type: "link", href: "", value: "", message: "", newTab: false }
+      : hero.primaryCta || { label: "", type: "link", href: "", value: "", message: "", newTab: false };
 
   const secondary =
     typeof hero.secondaryCta === "string"
-      ? { label: hero.secondaryCta, href: "", newTab: true }
-      : hero.secondaryCta || { label: "", href: "", newTab: true };
+      ? { label: hero.secondaryCta, type: "link", href: "", value: "", message: "", newTab: true }
+      : hero.secondaryCta || { label: "", type: "link", href: "", value: "", message: "", newTab: true };
+
+  const buildHrefFromCta = (cta) => {
+    const t = (cta?.type || "link").toLowerCase();
+
+    // explícito manda siempre
+    if (cta?.href) return cta.href;
+
+    if (t === "phone") {
+      const num = (cta.value || "").replace(/\s+/g, "");
+      return num ? `tel:${num}` : "";
+    }
+
+    if (t === "whatsapp") {
+      const num = (cta.value || "").replace(/[^\d+]/g, "");
+      const message = cta.message ? encodeURIComponent(cta.message) : "";
+      // wa.me requiere número sin + (normalmente). Lo limpiamos:
+      const waNum = num.replace("+", "");
+      if (!waNum) return "";
+      return message ? `https://wa.me/${waNum}?text=${message}` : `https://wa.me/${waNum}`;
+    }
+
+    if (t === "maps") {
+      // fallback a config.links.maps si no hay href
+      return config?.links?.maps || "https://www.google.com/maps";
+    }
+
+    // link
+    return "";
+  };
 
   const go = (e, href, newTab) => {
     if (preview) return e.preventDefault();
@@ -51,19 +85,39 @@ export default function HeroSection({ data, preview = false }) {
   };
 
   const handlePrimary = (e) => {
-    if (primary?.href) return go(e, primary.href, primary.newTab);
+    const href = buildHrefFromCta(primary);
+    if (href) return go(e, href, !!primary.newTab);
 
+    // fallback antiguo: scroll #menu
     if (preview) return e.preventDefault();
     const el = document.getElementById("menu");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSecondary = (e) => {
-    if (secondary?.href) return go(e, secondary.href, secondary.newTab);
+    const href = buildHrefFromCta(secondary);
+    if (href) return go(e, href, !!secondary.newTab);
 
+    // fallback antiguo: maps
     if (preview) return e.preventDefault();
     const maps = config?.links?.maps;
     if (maps) window.open(maps, "_blank", "noopener,noreferrer");
+  };
+
+  const chips = Array.isArray(visual.chips) ? visual.chips : [];
+
+  const iconFor = (key) => {
+    // iconos simples con texto (sin librerías)
+    switch ((key || "").toLowerCase()) {
+      case "clock": return "⏰";
+      case "map": return "📍";
+      case "phone": return "📞";
+      case "whatsapp": return "💬";
+      case "truck": return "🛵";
+      case "card": return "💳";
+      case "star": return "⭐";
+      default: return "•";
+    }
   };
 
   return (
@@ -128,12 +182,31 @@ export default function HeroSection({ data, preview = false }) {
                     {primary.label}
                   </Button>
                 ) : null}
-
                 {secondary?.label ? (
                   <Button variant="default" onClick={handleSecondary}>
                     {secondary.label}
                   </Button>
                 ) : null}
+              </div>
+            ) : null}
+
+            {/* ✅ QuickInfo (útil para locales) */}
+            {showQuickInfo && qiItems.length ? (
+              <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2">
+                {qiItems.slice(0, 6).map((it, idx) => (
+                  <div
+                    key={`${it?.label ?? "qi"}-${idx}`}
+                    className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3"
+                  >
+                    <div className="mt-[2px] text-sm">{iconFor(it?.icon)}</div>
+                    <div className="min-w-0">
+                      <div className="text-xs text-[var(--muted)]">{it?.label ?? ""}</div>
+                      <div className="text-sm font-semibold text-[var(--text)] truncate">
+                        {it?.value ?? ""}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : null}
 
@@ -155,17 +228,17 @@ export default function HeroSection({ data, preview = false }) {
           {/* ✅ Visual (condicional) */}
           {showVisual ? (
             <GlassCard className="relative p-5 sm:p-6">
-              <div className="text-xs text-[var(--muted)]">{visual.kicker || "Preview visual"}</div>
-              <div className="mt-3 text-sm font-semibold">{visual.title || "Imagen / vídeo del local"}</div>
+              <div className="text-xs text-[var(--muted)]">{visual.kicker || "Foto"}</div>
+              <div className="mt-3 text-sm font-semibold">{visual.title || "Imagen del local"}</div>
               <div className="mt-2 text-xs text-[var(--muted)]">
-                {visual.desc || "(Cuando tengas assets reales, lo cambiamos por una imagen que reviente.)"}
+                {visual.desc || "Añade una foto real para que impacte más."}
               </div>
 
               <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
                 {visual.imageSrc ? (
                   <img
                     src={visual.imageSrc}
-                    alt={visual.imageAlt || "Preview"}
+                    alt={visual.imageAlt || "Imagen"}
                     className="h-48 w-full object-cover"
                     loading="lazy"
                   />
