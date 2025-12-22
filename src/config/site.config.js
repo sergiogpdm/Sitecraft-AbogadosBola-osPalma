@@ -225,6 +225,26 @@ export const siteConfig = {
       "items": [
         {
           "imageSrc": "/demo/gallery/imagenBar.png",
+          "alt": "",
+          "caption": ""
+        },
+        {
+          "imageSrc": "",
+          "alt": "Imagen",
+          "caption": ""
+        },
+        {
+          "imageSrc": "",
+          "alt": "Imagen",
+          "caption": ""
+        },
+        {
+          "imageSrc": "",
+          "alt": "Imagen",
+          "caption": ""
+        },
+        {
+          "imageSrc": "",
           "alt": "Imagen",
           "caption": ""
         }
