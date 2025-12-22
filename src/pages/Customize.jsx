@@ -13,12 +13,14 @@ import BestSellersEditor from "../components/customize/BestSellersEditor.jsx";
 import PromoEditor from "../components/customize/PromoEditor.jsx";
 import FooterEditor from "../components/customize/FooterEditor.jsx";
 import ContactEditor from "../components/customize/ContactEditor.jsx";
+import GalleryEditor from "../components/customize/GalleryEditor.jsx";
 import ComponentPreview from "../components/customize/ComponentPreview.jsx";
 
 import HeroSection from "../components/sections/HeroSection.jsx";
 import BenefitsSection from "../components/sections/BenefitsSection.jsx";
 import BestSellersSection from "../components/sections/BestSellersSection.jsx";
 import PromoCtaSection from "../components/sections/PromoCtaSection.jsx";
+import GallerySection from "../components/sections/GallerySection.jsx";
 import Footer from "../components/Footer.jsx";
 import Contact from "../pages/Contact.jsx";
 
@@ -30,6 +32,8 @@ const COMPONENTS = [
   { key: "promo", label: "Promo CTA" },
   { key: "footer", label: "Footer" },
   { key: "contact", label: "Contact" },
+  { key: "gallery", label: "Gallery" },
+
 ];
 
 function setOverride(setConfig, key, value) {
@@ -429,6 +433,13 @@ export default function Customize() {
             </div>
           ) : null}
 
+          {active === "gallery" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <GalleryEditor config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
+
 
         </GlassCard>
 
@@ -457,6 +468,12 @@ export default function Customize() {
             <ComponentPreview title={`Preview — ${activeLabel}`}>
               <div className="bg-[var(--bg)]">
                 <PromoCtaSection data={config.copy.promo} preview />
+              </div>
+            </ComponentPreview>
+          ) : active === "gallery" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)]">
+                <GallerySection data={config.copy.gallery} preview />
               </div>
             </ComponentPreview>
           ) : active === "footer" ? (
