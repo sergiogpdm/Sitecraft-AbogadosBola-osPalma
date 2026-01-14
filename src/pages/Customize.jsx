@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Container from "../components/Container.jsx";
 import GlassCard from "../components/GlassCard.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -30,10 +30,21 @@ const COMPONENTS = [
   { key: "benefits", label: "Benefits" },
   { key: "bestSellers", label: "BestSellers" },
   { key: "promo", label: "Promo CTA" },
+  { key: "gallery", label: "Gallery" },
+  { key: "countdown", label: "Countdown" },
+  { key: "itinerary", label: "Itinerario" },
   { key: "footer", label: "Footer" },
   { key: "contact", label: "Contact" },
-  { key: "gallery", label: "Gallery" },
+];
 
+const HOME_SECTION_CATALOG = [
+  { id: "hero", label: "Hero" },
+  { id: "benefits", label: "Benefits" },
+  { id: "gallery", label: "Gallery" },
+  { id: "bestSellers", label: "BestSellers" },
+  { id: "promoCta", label: "Promo CTA" },
+  { id: "countdown", label: "Countdown" },
+  { id: "itinerary", label: "Itinerario" },
 ];
 
 function setOverride(setConfig, key, value) {
@@ -51,6 +62,20 @@ function setOverride(setConfig, key, value) {
 
 function getOverride(config, key) {
   return config.theme.overrides?.[key] ?? "";
+}
+
+function ensureCopyPath(config, path, fallbackValue) {
+  // path ej: ["copy","countdown"]
+  let cur = config;
+  for (let i = 0; i < path.length; i++) {
+    const k = path[i];
+    if (i === path.length - 1) {
+      if (cur?.[k] == null) cur[k] = fallbackValue;
+    } else {
+      if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+      cur = cur[k];
+    }
+  }
 }
 
 export default function Customize() {
@@ -101,6 +126,69 @@ export default function Customize() {
   const resetOverrides = () =>
     setConfig((p) => ({ ...p, theme: { ...p.theme, overrides: {} } }));
 
+  const ensureWeddingDefaults = () => {
+    // Inserta defaults si no existen (no pisa nada existente)
+    setConfig((p) => {
+      const next = structuredClone ? structuredClone(p) : JSON.parse(JSON.stringify(p));
+
+      ensureCopyPath(next, ["copy", "countdown"], {
+        enabled: true,
+        kicker: "Nos casamos",
+        title: "Cuenta atrás",
+        dateTime: "2026-06-20T18:00:00",
+        timezone: "Europe/Madrid",
+        note: "¡Te esperamos! Guarda la fecha ✨",
+        location: "",
+      });
+
+      ensureCopyPath(next, ["copy", "itinerary"], {
+        enabled: true,
+        kicker: "Itinerario",
+        title: "Horario del día",
+        desc: "Aquí tienes los momentos clave para que no te pierdas nada.",
+        items: [
+          { time: "18:00", title: "Ceremonia", desc: "Llegada 15 min antes.", location: "Iglesia / Lugar" },
+          { time: "19:30", title: "Cóctel", desc: "Brindis y fotos.", location: "Jardín / Patio" },
+          { time: "21:00", title: "Banquete", desc: "Cena y sorpresas.", location: "Salón" },
+          { time: "23:30", title: "Fiesta", desc: "Baila hasta que el cuerpo aguante.", location: "Zona DJ" },
+        ],
+      });
+
+      // También asegura que existan pages.home.sections si no están
+      if (!next.pages) next.pages = {};
+      if (!next.pages.home) next.pages.home = {};
+      if (!Array.isArray(next.pages.home.sections)) next.pages.home.sections = [];
+
+      return next;
+    });
+
+    setMsg("✅ Defaults de boda creados (Countdown + Itinerario).");
+    setTimeout(() => setMsg(""), 2200);
+  };
+
+  const homeSectionIds = useMemo(
+    () => new Set((config.pages?.home?.sections || []).map((s) => s.id)),
+    [config.pages?.home?.sections]
+  );
+
+  const addHomeSection = (id) => {
+    setConfig((p) => {
+      const exists = (p.pages?.home?.sections || []).some((s) => s.id === id);
+      if (exists) return p;
+
+      return {
+        ...p,
+        pages: {
+          ...p.pages,
+          home: {
+            ...p.pages?.home,
+            sections: [...(p.pages?.home?.sections || []), { id, enabled: true }],
+          },
+        },
+      };
+    });
+  };
+
   return (
     <div className="py-16">
       <Container className="grid gap-4 lg:grid-cols-[420px_1fr]">
@@ -137,6 +225,12 @@ export default function Customize() {
           {/* GENERAL */}
           {active === "general" ? (
             <div className="space-y-6 border-t border-[var(--border)] pt-5">
+              <div className="flex gap-2">
+                <Button variant="primary" onClick={ensureWeddingDefaults}>
+                  Crear defaults boda
+                </Button>
+              </div>
+
               <div className="space-y-2">
                 <div className="text-sm font-semibold">Apariencia</div>
                 <select
@@ -230,7 +324,10 @@ export default function Customize() {
                             ...p,
                             pages: {
                               ...p.pages,
-                              contact: { ...(p.pages.contact || {}), enabled: !p.pages?.contact?.enabled },
+                              contact: {
+                                ...(p.pages.contact || {}),
+                                enabled: !p.pages?.contact?.enabled,
+                              },
                             },
                           }))
                         }
@@ -243,7 +340,6 @@ export default function Customize() {
                   </div>
                 </div>
               </div>
-
 
               {/* Secciones Home */}
               <div className="space-y-2">
@@ -324,33 +420,86 @@ export default function Customize() {
                     </div>
                   ))}
                 </div>
+
+                {/* Añadir secciones que falten */}
+                <div className="mt-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-3">
+                  <div className="text-xs text-[var(--muted)]">
+                    Añadir secciones (si no aparecen arriba):
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {HOME_SECTION_CATALOG.filter((s) => !homeSectionIds.has(s.id)).map((s) => (
+                      <Button key={s.id} variant="default" onClick={() => addHomeSection(s.id)}>
+                        + {s.label}
+                      </Button>
+                    ))}
+                    {HOME_SECTION_CATALOG.every((s) => homeSectionIds.has(s.id)) ? (
+                      <div className="text-xs text-[var(--muted)]">No faltan secciones ✅</div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-3">
                 <div className="text-sm font-semibold">Tema — overrides</div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField label="Accent A" value={getOverride(config, "--accentA")} onChange={(v) => setOverride(setConfig, "--accentA", v)} />
-                  <ColorField label="Accent B" value={getOverride(config, "--accentB")} onChange={(v) => setOverride(setConfig, "--accentB", v)} />
+                  <ColorField
+                    label="Accent A"
+                    value={getOverride(config, "--accentA")}
+                    onChange={(v) => setOverride(setConfig, "--accentA", v)}
+                  />
+                  <ColorField
+                    label="Accent B"
+                    value={getOverride(config, "--accentB")}
+                    onChange={(v) => setOverride(setConfig, "--accentB", v)}
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField label="Background" value={getOverride(config, "--bg")} onChange={(v) => setOverride(setConfig, "--bg", v)} />
-                  <ColorField label="Text" value={getOverride(config, "--text")} onChange={(v) => setOverride(setConfig, "--text", v)} />
+                  <ColorField
+                    label="Background"
+                    value={getOverride(config, "--bg")}
+                    onChange={(v) => setOverride(setConfig, "--bg", v)}
+                  />
+                  <ColorField
+                    label="Text"
+                    value={getOverride(config, "--text")}
+                    onChange={(v) => setOverride(setConfig, "--text", v)}
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField label="Muted" value={getOverride(config, "--muted")} onChange={(v) => setOverride(setConfig, "--muted", v)} />
-                  <ColorField label="Border" value={getOverride(config, "--border")} onChange={(v) => setOverride(setConfig, "--border", v)} />
+                  <ColorField
+                    label="Muted"
+                    value={getOverride(config, "--muted")}
+                    onChange={(v) => setOverride(setConfig, "--muted", v)}
+                  />
+                  <ColorField
+                    label="Border"
+                    value={getOverride(config, "--border")}
+                    onChange={(v) => setOverride(setConfig, "--border", v)}
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ColorField label="Card bg" value={getOverride(config, "--card")} onChange={(v) => setOverride(setConfig, "--card", v)} />
-                  <NumberField label="Radius (px)" value={stripPx(getOverride(config, "--radius"))} onChange={(v) => setOverride(setConfig, "--radius", v ? `${v}px` : "")} />
+                  <ColorField
+                    label="Card bg"
+                    value={getOverride(config, "--card")}
+                    onChange={(v) => setOverride(setConfig, "--card", v)}
+                  />
+                  <NumberField
+                    label="Radius (px)"
+                    value={stripPx(getOverride(config, "--radius"))}
+                    onChange={(v) => setOverride(setConfig, "--radius", v ? `${v}px` : "")}
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <NumberField label="Card blur (px)" value={stripPx(getOverride(config, "--cardBlur"))} onChange={(v) => setOverride(setConfig, "--cardBlur", v ? `${v}px` : "")} />
+                  <NumberField
+                    label="Card blur (px)"
+                    value={stripPx(getOverride(config, "--cardBlur"))}
+                    onChange={(v) => setOverride(setConfig, "--cardBlur", v ? `${v}px` : "")}
+                  />
                   <select
                     className="mt-5 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm outline-none"
                     value={getOverride(config, "--btnRadius") || "999px"}
@@ -364,33 +513,78 @@ export default function Customize() {
 
                 <div className="space-y-2">
                   <div className="text-xs text-zinc-400">Sombras</div>
-                  <Slider label="Shadow Y" min={0} max={60} value={toNum(stripPx(getOverride(config, "--shadowY")), 20)} onChange={(v) => setOverride(setConfig, "--shadowY", `${v}px`)} />
-                  <Slider label="Shadow Blur" min={0} max={200} value={toNum(stripPx(getOverride(config, "--shadowBlur")), 80)} onChange={(v) => setOverride(setConfig, "--shadowBlur", `${v}px`)} />
-                  <Slider label="Shadow Opacity" min={0} max={0.9} step={0.01} value={toNum(getOverride(config, "--shadowOpacity"), 0.45)} onChange={(v) => setOverride(setConfig, "--shadowOpacity", String(v))} />
+                  <Slider
+                    label="Shadow Y"
+                    min={0}
+                    max={60}
+                    value={toNum(stripPx(getOverride(config, "--shadowY")), 20)}
+                    onChange={(v) => setOverride(setConfig, "--shadowY", `${v}px`)}
+                  />
+                  <Slider
+                    label="Shadow Blur"
+                    min={0}
+                    max={200}
+                    value={toNum(stripPx(getOverride(config, "--shadowBlur")), 80)}
+                    onChange={(v) => setOverride(setConfig, "--shadowBlur", `${v}px`)}
+                  />
+                  <Slider
+                    label="Shadow Opacity"
+                    min={0}
+                    max={0.9}
+                    step={0.01}
+                    value={toNum(getOverride(config, "--shadowOpacity"), 0.45)}
+                    onChange={(v) => setOverride(setConfig, "--shadowOpacity", String(v))}
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-xs text-zinc-400">Hero / Glows</div>
-                  <Slider label="Glow Blur" min={20} max={120} value={toNum(stripPx(getOverride(config, "--glowBlur")), 64)} onChange={(v) => setOverride(setConfig, "--glowBlur", `${v}px`)} />
-                  <ColorField label="Glow A" value={getOverride(config, "--glowA")} onChange={(v) => setOverride(setConfig, "--glowA", v)} />
-                  <ColorField label="Glow B" value={getOverride(config, "--glowB")} onChange={(v) => setOverride(setConfig, "--glowB", v)} />
+                  <Slider
+                    label="Glow Blur"
+                    min={20}
+                    max={120}
+                    value={toNum(stripPx(getOverride(config, "--glowBlur")), 64)}
+                    onChange={(v) => setOverride(setConfig, "--glowBlur", `${v}px`)}
+                  />
+                  <ColorField
+                    label="Glow A"
+                    value={getOverride(config, "--glowA")}
+                    onChange={(v) => setOverride(setConfig, "--glowA", v)}
+                  />
+                  <ColorField
+                    label="Glow B"
+                    value={getOverride(config, "--glowB")}
+                    onChange={(v) => setOverride(setConfig, "--glowB", v)}
+                  />
                   <label className="flex items-center gap-3 text-sm">
                     <input
                       type="checkbox"
                       checked={(getOverride(config, "--heroPattern") || "") !== "none"}
-                      onChange={(e) => setOverride(setConfig, "--heroPattern", e.target.checked ? "" : "none")}
+                      onChange={(e) =>
+                        setOverride(setConfig, "--heroPattern", e.target.checked ? "" : "none")
+                      }
                     />
                     Patrón hero (on/off)
                   </label>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3">
-                  <FontSelect label="Font Display (títulos)" value={getOverride(config, "--fontDisplay")} onChange={(v) => setOverride(setConfig, "--fontDisplay", v)} />
-                  <FontSelect label="Font Body (texto)" value={getOverride(config, "--fontBody")} onChange={(v) => setOverride(setConfig, "--fontBody", v)} />
+                  <FontSelect
+                    label="Font Display (títulos)"
+                    value={getOverride(config, "--fontDisplay")}
+                    onChange={(v) => setOverride(setConfig, "--fontDisplay", v)}
+                  />
+                  <FontSelect
+                    label="Font Body (texto)"
+                    value={getOverride(config, "--fontBody")}
+                    onChange={(v) => setOverride(setConfig, "--fontBody", v)}
+                  />
                 </div>
 
                 <div className="flex gap-2">
-                  <Button variant="default" onClick={resetOverrides}>Reset overrides</Button>
+                  <Button variant="default" onClick={resetOverrides}>
+                    Reset overrides
+                  </Button>
                 </div>
               </div>
             </div>
@@ -421,6 +615,24 @@ export default function Customize() {
             </div>
           ) : null}
 
+          {active === "gallery" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <GalleryEditor config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
+          {active === "countdown" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <CountdownEditorInline config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
+          {active === "itinerary" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <ItineraryEditorInline config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
           {active === "footer" ? (
             <div className="border-t border-[var(--border)] pt-5">
               <FooterEditor config={config} setConfig={setConfig} />
@@ -432,15 +644,6 @@ export default function Customize() {
               <ContactEditor config={config} setConfig={setConfig} />
             </div>
           ) : null}
-
-          {active === "gallery" ? (
-            <div className="border-t border-[var(--border)] pt-5">
-              <GalleryEditor config={config} setConfig={setConfig} />
-            </div>
-          ) : null}
-
-
-
         </GlassCard>
 
         {/* RIGHT */}
@@ -476,6 +679,18 @@ export default function Customize() {
                 <GallerySection data={config.copy.gallery} preview />
               </div>
             </ComponentPreview>
+          ) : active === "countdown" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)]">
+                <CountdownPreviewInline data={config.copy?.countdown} />
+              </div>
+            </ComponentPreview>
+          ) : active === "itinerary" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)]">
+                <ItineraryPreviewInline data={config.copy?.itinerary} />
+              </div>
+            </ComponentPreview>
           ) : active === "footer" ? (
             <ComponentPreview title={`Preview — ${activeLabel}`}>
               <div className="bg-[var(--bg)]">
@@ -499,8 +714,6 @@ export default function Customize() {
               </div>
             </GlassCard>
           )}
-
-
 
           {/* Export / Import (debajo del preview) */}
           <GlassCard className="p-6 space-y-3">
@@ -552,6 +765,354 @@ export default function Customize() {
           </GlassCard>
         </div>
       </Container>
+    </div>
+  );
+}
+
+/* ------------------ Countdown (INLINE) ------------------ */
+
+function CountdownEditorInline({ config, setConfig }) {
+  const data = config.copy?.countdown || {};
+
+  const setField = (key, value) => {
+    setConfig((p) => ({
+      ...p,
+      copy: {
+        ...p.copy,
+        countdown: {
+          enabled: true,
+          kicker: "",
+          title: "",
+          dateTime: "",
+          timezone: "",
+          note: "",
+          location: "",
+          ...(p.copy?.countdown || {}),
+          [key]: value,
+        },
+      },
+    }));
+  };
+
+  const setEnabled = (enabled) => setField("enabled", enabled);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-semibold">Countdown</div>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={data.enabled !== false} onChange={(e) => setEnabled(e.target.checked)} />
+          <span className="text-xs text-[var(--muted)]">{data.enabled === false ? "Oculto" : "Visible"}</span>
+        </label>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3">
+        <TextField label="Kicker" value={data.kicker ?? ""} onChange={(v) => setField("kicker", v)} />
+        <TextField label="Título" value={data.title ?? ""} onChange={(v) => setField("title", v)} />
+        <TextField label="Nota (opcional)" value={data.note ?? ""} onChange={(v) => setField("note", v)} />
+        <TextField label="Lugar (opcional)" value={data.location ?? ""} onChange={(v) => setField("location", v)} />
+
+        <label className="block">
+          <div className="text-xs text-zinc-400">Fecha y hora (ISO/local)</div>
+          <input
+            type="datetime-local"
+            className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm outline-none"
+            value={toDatetimeLocalValue(data.dateTime)}
+            onChange={(e) => {
+              // guardamos como ISO sin zona; suficiente para tu config
+              const v = e.target.value || "";
+              setField("dateTime", v ? `${v}:00` : "");
+            }}
+          />
+        </label>
+
+        <TextField
+          label="Timezone (ej: Europe/Madrid)"
+          value={data.timezone ?? ""}
+          onChange={(v) => setField("timezone", v)}
+        />
+
+        <div className="text-xs text-[var(--muted)]">
+          Tip: si no quieres timezone, déjalo vacío y se mostrará según el navegador.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CountdownPreviewInline({ data }) {
+  const d = data || {};
+  const enabled = d.enabled !== false;
+
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  if (!enabled) {
+    return (
+      <div className="p-10">
+        <GlassCard className="p-6">
+          <div className="text-sm font-semibold">Countdown</div>
+          <div className="mt-2 text-sm text-[var(--muted)]">Esta sección está oculta.</div>
+        </GlassCard>
+      </div>
+    );
+  }
+
+  const targetMs = parseDateTimeLoose(d.dateTime);
+  const diff = targetMs ? Math.max(0, targetMs - now) : null;
+
+  const parts = diff == null ? null : splitMs(diff);
+
+  return (
+    <div className="px-6 py-10">
+      <div className="mx-auto max-w-3xl">
+        <GlassCard className="p-6">
+          {d.kicker ? <div className="text-xs text-[var(--muted)]">{d.kicker}</div> : null}
+          <div className="mt-1 text-xl font-semibold">{d.title || "Cuenta atrás"}</div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <CountdownTile label="Días" value={parts ? parts.days : "—"} />
+            <CountdownTile label="Horas" value={parts ? parts.hours : "—"} />
+            <CountdownTile label="Min" value={parts ? parts.minutes : "—"} />
+            <CountdownTile label="Seg" value={parts ? parts.seconds : "—"} />
+          </div>
+
+          {d.location ? (
+            <div className="mt-4 text-sm text-[var(--muted)]">
+              📍 {d.location}
+            </div>
+          ) : null}
+
+          {d.note ? <div className="mt-3 text-sm text-[var(--muted)]">{d.note}</div> : null}
+
+          {d.dateTime ? (
+            <div className="mt-4 text-xs text-[var(--muted)]">
+              Fecha: <code>{d.dateTime}</code> {d.timezone ? <span>({d.timezone})</span> : null}
+            </div>
+          ) : (
+            <div className="mt-4 text-xs text-[var(--muted)]">Pon una fecha para ver la cuenta atrás.</div>
+          )}
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+function CountdownTile({ label, value }) {
+  return (
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 text-center">
+      <div className="text-2xl font-semibold">{String(value).padStart?.(2, "0") ?? value}</div>
+      <div className="mt-1 text-xs text-[var(--muted)]">{label}</div>
+    </div>
+  );
+}
+
+/* ------------------ Itinerario (INLINE) ------------------ */
+
+function ItineraryEditorInline({ config, setConfig }) {
+  const data = config.copy?.itinerary || {};
+  const items = Array.isArray(data.items) ? data.items : [];
+
+  const setField = (key, value) => {
+    setConfig((p) => ({
+      ...p,
+      copy: {
+        ...p.copy,
+        itinerary: {
+          enabled: true,
+          kicker: "",
+          title: "",
+          desc: "",
+          items: [],
+          ...(p.copy?.itinerary || {}),
+          [key]: value,
+        },
+      },
+    }));
+  };
+
+  const setItem = (idx, patch) => {
+    setConfig((p) => {
+      const cur = p.copy?.itinerary || {};
+      const arr = Array.isArray(cur.items) ? [...cur.items] : [];
+      arr[idx] = { ...(arr[idx] || {}), ...patch };
+      return {
+        ...p,
+        copy: {
+          ...p.copy,
+          itinerary: {
+            enabled: true,
+            kicker: "",
+            title: "",
+            desc: "",
+            items: [],
+            ...cur,
+            items: arr,
+          },
+        },
+      };
+    });
+  };
+
+  const addItem = () => {
+    setConfig((p) => {
+      const cur = p.copy?.itinerary || {};
+      const arr = Array.isArray(cur.items) ? [...cur.items] : [];
+      arr.push({ time: "00:00", title: "Nuevo momento", desc: "", location: "" });
+      return {
+        ...p,
+        copy: {
+          ...p.copy,
+          itinerary: {
+            enabled: true,
+            kicker: "",
+            title: "",
+            desc: "",
+            items: [],
+            ...cur,
+            items: arr,
+          },
+        },
+      };
+    });
+  };
+
+  const removeItem = (idx) => {
+    setConfig((p) => {
+      const cur = p.copy?.itinerary || {};
+      const arr = Array.isArray(cur.items) ? [...cur.items] : [];
+      arr.splice(idx, 1);
+      return {
+        ...p,
+        copy: {
+          ...p.copy,
+          itinerary: { ...cur, items: arr },
+        },
+      };
+    });
+  };
+
+  const moveItem = (idx, dir) => {
+    setConfig((p) => {
+      const cur = p.copy?.itinerary || {};
+      const arr = Array.isArray(cur.items) ? [...cur.items] : [];
+      const j = idx + dir;
+      if (idx < 0 || j < 0 || j >= arr.length) return p;
+      [arr[idx], arr[j]] = [arr[j], arr[idx]];
+      return { ...p, copy: { ...p.copy, itinerary: { ...cur, items: arr } } };
+    });
+  };
+
+  const setEnabled = (enabled) => setField("enabled", enabled);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-semibold">Itinerario</div>
+        <label className="flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={data.enabled !== false} onChange={(e) => setEnabled(e.target.checked)} />
+          <span className="text-xs text-[var(--muted)]">{data.enabled === false ? "Oculto" : "Visible"}</span>
+        </label>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3">
+        <TextField label="Kicker" value={data.kicker ?? ""} onChange={(v) => setField("kicker", v)} />
+        <TextField label="Título" value={data.title ?? ""} onChange={(v) => setField("title", v)} />
+        <TextField label="Descripción" value={data.desc ?? ""} onChange={(v) => setField("desc", v)} />
+      </div>
+
+      <div className="mt-2 flex items-center justify-between">
+        <div className="text-sm font-semibold">Momentos</div>
+        <Button variant="primary" onClick={addItem}>
+          + Añadir
+        </Button>
+      </div>
+
+      <div className="space-y-3">
+        {items.length === 0 ? (
+          <div className="text-sm text-[var(--muted)]">No hay items. Añade el primero.</div>
+        ) : null}
+
+        {items.map((it, idx) => (
+          <div key={idx} className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold">Item #{idx + 1}</div>
+              <div className="flex gap-2">
+                <Button variant="default" className="px-3 py-2" onClick={() => moveItem(idx, -1)}>
+                  ↑
+                </Button>
+                <Button variant="default" className="px-3 py-2" onClick={() => moveItem(idx, +1)}>
+                  ↓
+                </Button>
+                <Button variant="default" onClick={() => removeItem(idx)}>
+                  Borrar
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3">
+              <TextField label="Hora" value={it.time ?? ""} onChange={(v) => setItem(idx, { time: v })} />
+              <TextField label="Título" value={it.title ?? ""} onChange={(v) => setItem(idx, { title: v })} />
+              <TextField label="Descripción" value={it.desc ?? ""} onChange={(v) => setItem(idx, { desc: v })} />
+              <TextField label="Lugar" value={it.location ?? ""} onChange={(v) => setItem(idx, { location: v })} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ItineraryPreviewInline({ data }) {
+  const d = data || {};
+  const enabled = d.enabled !== false;
+  const items = Array.isArray(d.items) ? d.items : [];
+
+  if (!enabled) {
+    return (
+      <div className="p-10">
+        <GlassCard className="p-6">
+          <div className="text-sm font-semibold">Itinerario</div>
+          <div className="mt-2 text-sm text-[var(--muted)]">Esta sección está oculta.</div>
+        </GlassCard>
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-6 py-10">
+      <div className="mx-auto max-w-3xl">
+        <GlassCard className="p-6">
+          {d.kicker ? <div className="text-xs text-[var(--muted)]">{d.kicker}</div> : null}
+          <div className="mt-1 text-xl font-semibold">{d.title || "Itinerario"}</div>
+          {d.desc ? <div className="mt-2 text-sm text-[var(--muted)]">{d.desc}</div> : null}
+
+          <div className="mt-6 space-y-3">
+            {items.length === 0 ? (
+              <div className="text-sm text-[var(--muted)]">Añade items para ver el horario.</div>
+            ) : null}
+
+            {items.map((it, idx) => (
+              <div
+                key={idx}
+                className="flex gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
+              >
+                <div className="w-20 shrink-0 text-sm font-semibold">{it.time || "—"}</div>
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold">{it.title || "Momento"}</div>
+                  {it.desc ? <div className="mt-1 text-sm text-[var(--muted)]">{it.desc}</div> : null}
+                  {it.location ? (
+                    <div className="mt-2 text-xs text-[var(--muted)]">📍 {it.location}</div>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
     </div>
   );
 }
@@ -637,6 +1198,19 @@ function FontSelect({ label, value, onChange }) {
   );
 }
 
+function TextField({ label, value, onChange }) {
+  return (
+    <label className="block">
+      <div className="text-xs text-zinc-400">{label}</div>
+      <input
+        className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm outline-none"
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </label>
+  );
+}
+
 function stripPx(v) {
   return String(v || "").replace("px", "");
 }
@@ -644,4 +1218,34 @@ function stripPx(v) {
 function toNum(v, fallback) {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
+}
+
+function toDatetimeLocalValue(v) {
+  if (!v) return "";
+  // aceptamos "YYYY-MM-DDTHH:mm:ss" y devolvemos "YYYY-MM-DDTHH:mm"
+  const s = String(v);
+  const m = s.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
+  return m ? m[1] : "";
+}
+
+function parseDateTimeLoose(v) {
+  if (!v) return null;
+  // si viene "YYYY-MM-DDTHH:mm:ss" -> Date lo entiende como local normalmente
+  const t = Date.parse(v);
+  if (Number.isFinite(t)) return t;
+  return null;
+}
+
+function splitMs(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return {
+    days,
+    hours: String(hours).padStart(2, "0"),
+    minutes: String(minutes).padStart(2, "0"),
+    seconds: String(seconds).padStart(2, "0"),
+  };
 }
