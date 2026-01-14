@@ -4,9 +4,13 @@ import BestSellersSection from "../components/sections/BestSellersSection.jsx";
 import PromoCtaSection from "../components/sections/PromoCtaSection.jsx";
 import GallerySection from "../components/sections/GallerySection.jsx";
 
-// ✅ NUEVOS
+// ✅ YA TENÍAS
 import CountdownSection from "../components/sections/CountdownSection.jsx";
 import ItinerarySection from "../components/sections/ItinerarySection.jsx";
+
+// ✅ NUEVOS (para que no quede sosa)
+import PhotoStripSection from "../components/sections/PhotoStripSection.jsx";
+import StorySection from "../components/sections/StorySection.jsx";
 
 import { useSiteConfig } from "../context/SiteConfigContext.jsx";
 
@@ -16,13 +20,15 @@ const SECTION_MAP = {
   bestSellers: BestSellersSection,
   gallery: GallerySection,
 
-  // ✅ NUEVOS
-  countdown: CountdownSection,
-  itinerary: ItinerarySection,
-
   // Soporta ambas keys por si en config usas una u otra
   promoCta: PromoCtaSection,
   promo: PromoCtaSection,
+
+  // ✅ BODA
+  countdown: CountdownSection,
+  itinerary: ItinerarySection,
+  photoStrip: PhotoStripSection,
+  story: StorySection,
 };
 
 export default function Home() {
@@ -37,18 +43,26 @@ export default function Home() {
           const Comp = SECTION_MAP[s?.id];
           if (!Comp) return null;
 
-          // Pasar data explícita
-          if (s.id === "gallery") return <Comp key={s.id} data={config.copy.gallery} />;
-          if (s.id === "hero") return <Comp key={s.id} data={config.copy.hero} />;
-          if (s.id === "benefits") return <Comp key={s.id} data={config.copy.benefits} />;
-          if (s.id === "bestSellers") return <Comp key={s.id} data={config.copy.bestSellers} />;
-          if (s.id === "promo" || s.id === "promoCta") return <Comp key={s.id} data={config.copy.promo} />;
+          // Pasar data explícita (centralizado)
+          const dataMap = {
+            hero: config.copy?.hero,
+            benefits: config.copy?.benefits,
+            bestSellers: config.copy?.bestSellers,
+            gallery: config.copy?.gallery,
+            promo: config.copy?.promo,
+            promoCta: config.copy?.promo,
 
-          // ✅ NUEVOS: data para countdown e itinerary
-          if (s.id === "countdown") return <Comp key={s.id} data={config.copy.countdown} />;
-          if (s.id === "itinerary") return <Comp key={s.id} data={config.copy.itinerary} />;
+            // ✅ nuevos
+            countdown: config.copy?.countdown,
+            itinerary: config.copy?.itinerary,
+            photoStrip: config.copy?.photoStrip,
+            story: config.copy?.story,
+          };
 
-          return <Comp key={s.id} />;
+          const data = dataMap[s.id];
+
+          // Si existe data, la pasamos. Si no, render normal.
+          return data ? <Comp key={s.id} data={data} /> : <Comp key={s.id} />;
         })}
     </div>
   );

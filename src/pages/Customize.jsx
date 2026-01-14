@@ -16,6 +16,9 @@ import ContactEditor from "../components/customize/ContactEditor.jsx";
 import GalleryEditor from "../components/customize/GalleryEditor.jsx";
 import ComponentPreview from "../components/customize/ComponentPreview.jsx";
 
+import PhotoStripEditor from "../components/customize/PhotoStripEditor.jsx";
+import StoryEditor from "../components/customize/StoryEditor.jsx";
+
 import HeroSection from "../components/sections/HeroSection.jsx";
 import BenefitsSection from "../components/sections/BenefitsSection.jsx";
 import BestSellersSection from "../components/sections/BestSellersSection.jsx";
@@ -24,6 +27,9 @@ import GallerySection from "../components/sections/GallerySection.jsx";
 import Footer from "../components/Footer.jsx";
 import Contact from "../pages/Contact.jsx";
 
+import PhotoStripSection from "../components/sections/PhotoStripSection.jsx";
+import StorySection from "../components/sections/StorySection.jsx";
+
 const COMPONENTS = [
   { key: "general", label: "General" },
   { key: "hero", label: "Hero" },
@@ -31,8 +37,13 @@ const COMPONENTS = [
   { key: "bestSellers", label: "BestSellers" },
   { key: "promo", label: "Promo CTA" },
   { key: "gallery", label: "Gallery" },
+
+  // ✅ boda
   { key: "countdown", label: "Countdown" },
   { key: "itinerary", label: "Itinerario" },
+  { key: "photoStrip", label: "PhotoStrip" },
+  { key: "story", label: "Story / Timeline" },
+
   { key: "footer", label: "Footer" },
   { key: "contact", label: "Contact" },
 ];
@@ -42,9 +53,16 @@ const HOME_SECTION_CATALOG = [
   { id: "benefits", label: "Benefits" },
   { id: "gallery", label: "Gallery" },
   { id: "bestSellers", label: "BestSellers" },
+
+  // Soporta ambas keys por si usas una u otra
   { id: "promoCta", label: "Promo CTA" },
+  { id: "promo", label: "Promo CTA (alt)" },
+
+  // ✅ boda
   { id: "countdown", label: "Countdown" },
   { id: "itinerary", label: "Itinerario" },
+  { id: "photoStrip", label: "PhotoStrip" },
+  { id: "story", label: "Story / Timeline" },
 ];
 
 function setOverride(setConfig, key, value) {
@@ -76,6 +94,15 @@ function ensureCopyPath(config, path, fallbackValue) {
       cur = cur[k];
     }
   }
+}
+
+function ensureHomeSection(config, id, enabled = true) {
+  if (!config.pages) config.pages = {};
+  if (!config.pages.home) config.pages.home = {};
+  if (!Array.isArray(config.pages.home.sections)) config.pages.home.sections = [];
+
+  const exists = config.pages.home.sections.some((s) => s.id === id);
+  if (!exists) config.pages.home.sections.push({ id, enabled });
 }
 
 export default function Customize() {
@@ -154,15 +181,45 @@ export default function Customize() {
         ],
       });
 
-      // También asegura que existan pages.home.sections si no están
+      // ✅ NUEVOS: photoStrip + story (para que no haya undefined)
+      ensureCopyPath(next, ["copy", "photoStrip"], {
+        enabled: true,
+        kicker: "Momentos",
+        title: "Un poquito de nosotros",
+        note: "",
+        photos: ["", "", "", "", ""],
+      });
+
+      ensureCopyPath(next, ["copy", "story"], {
+        enabled: true,
+        kicker: "Nuestra historia",
+        title: "Cómo empezó todo",
+        desc: "Un resumen rápido de nuestro camino hasta el gran día.",
+        items: [
+          { date: "2022", title: "Nos conocimos", text: "Añade aquí un texto corto.", image: "" },
+          { date: "2024", title: "Nuestro primer viaje", text: "Añade aquí un texto corto.", image: "" },
+          { date: "2025", title: "La pedida", text: "Añade aquí un texto corto.", image: "" },
+        ],
+      });
+
+      // También asegura que existan pages.home.sections
       if (!next.pages) next.pages = {};
       if (!next.pages.home) next.pages.home = {};
       if (!Array.isArray(next.pages.home.sections)) next.pages.home.sections = [];
 
+      // ✅ opcional: añadir secciones boda a la home si no están
+      ensureHomeSection(next, "hero", true);
+      ensureHomeSection(next, "countdown", true);
+      ensureHomeSection(next, "photoStrip", true);
+      ensureHomeSection(next, "itinerary", true);
+      ensureHomeSection(next, "story", true);
+      ensureHomeSection(next, "benefits", true);
+      ensureHomeSection(next, "gallery", true);
+
       return next;
     });
 
-    setMsg("✅ Defaults de boda creados (Countdown + Itinerario).");
+    setMsg("✅ Defaults de boda creados (Countdown + Itinerario + PhotoStrip + Story).");
     setTimeout(() => setMsg(""), 2200);
   };
 
@@ -633,6 +690,18 @@ export default function Customize() {
             </div>
           ) : null}
 
+          {active === "photoStrip" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <PhotoStripEditor config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
+          {active === "story" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <StoryEditor config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
           {active === "footer" ? (
             <div className="border-t border-[var(--border)] pt-5">
               <FooterEditor config={config} setConfig={setConfig} />
@@ -689,6 +758,18 @@ export default function Customize() {
             <ComponentPreview title={`Preview — ${activeLabel}`}>
               <div className="bg-[var(--bg)]">
                 <ItineraryPreviewInline data={config.copy?.itinerary} />
+              </div>
+            </ComponentPreview>
+          ) : active === "photoStrip" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)]">
+                <PhotoStripSection data={config.copy?.photoStrip} preview />
+              </div>
+            </ComponentPreview>
+          ) : active === "story" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)]">
+                <StorySection data={config.copy?.story} preview />
               </div>
             </ComponentPreview>
           ) : active === "footer" ? (
@@ -801,7 +882,11 @@ function CountdownEditorInline({ config, setConfig }) {
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold">Countdown</div>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={data.enabled !== false} onChange={(e) => setEnabled(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={data.enabled !== false}
+            onChange={(e) => setEnabled(e.target.checked)}
+          />
           <span className="text-xs text-[var(--muted)]">{data.enabled === false ? "Oculto" : "Visible"}</span>
         </label>
       </div>
@@ -819,7 +904,6 @@ function CountdownEditorInline({ config, setConfig }) {
             className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-sm outline-none"
             value={toDatetimeLocalValue(data.dateTime)}
             onChange={(e) => {
-              // guardamos como ISO sin zona; suficiente para tu config
               const v = e.target.value || "";
               setField("dateTime", v ? `${v}:00` : "");
             }}
@@ -863,7 +947,6 @@ function CountdownPreviewInline({ data }) {
 
   const targetMs = parseDateTimeLoose(d.dateTime);
   const diff = targetMs ? Math.max(0, targetMs - now) : null;
-
   const parts = diff == null ? null : splitMs(diff);
 
   return (
@@ -880,12 +963,7 @@ function CountdownPreviewInline({ data }) {
             <CountdownTile label="Seg" value={parts ? parts.seconds : "—"} />
           </div>
 
-          {d.location ? (
-            <div className="mt-4 text-sm text-[var(--muted)]">
-              📍 {d.location}
-            </div>
-          ) : null}
-
+          {d.location ? <div className="mt-4 text-sm text-[var(--muted)]">📍 {d.location}</div> : null}
           {d.note ? <div className="mt-3 text-sm text-[var(--muted)]">{d.note}</div> : null}
 
           {d.dateTime ? (
@@ -985,13 +1063,7 @@ function ItineraryEditorInline({ config, setConfig }) {
       const cur = p.copy?.itinerary || {};
       const arr = Array.isArray(cur.items) ? [...cur.items] : [];
       arr.splice(idx, 1);
-      return {
-        ...p,
-        copy: {
-          ...p.copy,
-          itinerary: { ...cur, items: arr },
-        },
-      };
+      return { ...p, copy: { ...p.copy, itinerary: { ...cur, items: arr } } };
     });
   };
 
@@ -1013,7 +1085,11 @@ function ItineraryEditorInline({ config, setConfig }) {
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold">Itinerario</div>
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={data.enabled !== false} onChange={(e) => setEnabled(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={data.enabled !== false}
+            onChange={(e) => setEnabled(e.target.checked)}
+          />
           <span className="text-xs text-[var(--muted)]">{data.enabled === false ? "Oculto" : "Visible"}</span>
         </label>
       </div>
@@ -1222,7 +1298,6 @@ function toNum(v, fallback) {
 
 function toDatetimeLocalValue(v) {
   if (!v) return "";
-  // aceptamos "YYYY-MM-DDTHH:mm:ss" y devolvemos "YYYY-MM-DDTHH:mm"
   const s = String(v);
   const m = s.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
   return m ? m[1] : "";
@@ -1230,7 +1305,6 @@ function toDatetimeLocalValue(v) {
 
 function parseDateTimeLoose(v) {
   if (!v) return null;
-  // si viene "YYYY-MM-DDTHH:mm:ss" -> Date lo entiende como local normalmente
   const t = Date.parse(v);
   if (Number.isFinite(t)) return t;
   return null;
