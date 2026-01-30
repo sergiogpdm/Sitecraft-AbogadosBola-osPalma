@@ -72,3 +72,16 @@ export function iconFor(key) {
     default: return "•";
   }
 }
+
+export function heroBadgeClassName(extra = "") {
+  return (
+    "inline-flex items-center gap-2 rounded-full border border-[var(--border)] " +
+    "bg-[var(--card)] px-4 py-2 text-xs text-[var(--muted)] " +
+    (extra ? String(extra) : "")
+  );
+}
+
+export function heroBadgeDotStyle() {
+  return { background: "linear-gradient(90deg,var(--accentA),var(--accentB))" };
+}
+

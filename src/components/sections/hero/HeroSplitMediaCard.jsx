@@ -110,31 +110,38 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
           </div>
 
           {showVisual ? (
-            <GlassCard className="relative p-5 sm:p-6">
-              <div className="text-xs text-[var(--muted)]">{visual.kicker || "Foto"}</div>
-              <div className="mt-3 text-sm font-semibold">{visual.title || "Imagen del local"}</div>
-              <div className="mt-2 text-xs text-[var(--muted)]">{visual.desc || "Añade una foto real para que impacte más."}</div>
+  <GlassCard className="relative p-5 sm:p-6">
+    <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
+      {visual.imageSrc ? (
+        <img
+          src={visual.imageSrc}
+          alt={visual.imageAlt || "Imagen"}
+          className="h-56 w-full object-cover sm:h-64"
+          loading="lazy"
+        />
+      ) : (
+        // Sin texto: placeholder discreto
+        <div className="h-56 w-full sm:h-64" />
+      )}
+    </div>
 
-              <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-                {visual.imageSrc ? (
-                  <img src={visual.imageSrc} alt={visual.imageAlt || "Imagen"} className="h-48 w-full object-cover" loading="lazy" />
-                ) : (
-                  <div className="flex h-48 w-full items-center justify-center text-xs text-[var(--muted)]">Sin imagen (añádela desde Customize)</div>
-                )}
-              </div>
+    {/* chips se quedan si quieres */}
+    {chips.length ? (
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        {chips.slice(0, 4).map((c, idx) => (
+          <div
+            key={`${c?.label ?? "chip"}-${idx}`}
+            className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
+          >
+            <div className="text-xs text-[var(--muted)]">{c?.label ?? "—"}</div>
+            <div className="mt-1 font-semibold">{c?.value ?? ""}</div>
+          </div>
+        ))}
+      </div>
+    ) : null}
+  </GlassCard>
+) : null}
 
-              {chips.length ? (
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  {chips.slice(0, 4).map((c, idx) => (
-                    <div key={`${c?.label ?? "chip"}-${idx}`} className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
-                      <div className="text-xs text-[var(--muted)]">{c?.label ?? "—"}</div>
-                      <div className="mt-1 font-semibold">{c?.value ?? ""}</div>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-            </GlassCard>
-          ) : null}
         </div>
       </Container>
     </section>

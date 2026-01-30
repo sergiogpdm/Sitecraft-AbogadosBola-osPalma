@@ -133,29 +133,24 @@ export default function HeroCentered({ data, preview = false }) {
           ) : null}
 
           {showVisual ? (
-            <div className="mt-8">
-              <GlassCard className="p-5 sm:p-6 text-left">
-                <div className="text-xs text-[var(--muted)]">{visual.kicker || "Foto"}</div>
-                <div className="mt-2 text-sm font-semibold">{visual.title || "Imagen del local"}</div>
-                <div className="mt-2 text-xs text-[var(--muted)]">{visual.desc || ""}</div>
+  <div className="mt-8">
+    <GlassCard className="p-5 sm:p-6 text-left">
+      <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
+        {visual.imageSrc ? (
+          <img
+            src={visual.imageSrc}
+            alt={visual.imageAlt || "Imagen"}
+            className="h-64 w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="h-64 w-full" />
+        )}
+      </div>
+    </GlassCard>
+  </div>
+) : null}
 
-                <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-                  {visual.imageSrc ? (
-                    <img
-                      src={visual.imageSrc}
-                      alt={visual.imageAlt || "Imagen"}
-                      className="h-64 w-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="flex h-64 w-full items-center justify-center text-xs text-[var(--muted)]">
-                      Sin imagen (añádela desde Customize)
-                    </div>
-                  )}
-                </div>
-              </GlassCard>
-            </div>
-          ) : null}
         </div>
       </Container>
     </section>

@@ -153,8 +153,30 @@ export default function Customize() {
   const resetOverrides = () =>
     setConfig((p) => ({ ...p, theme: { ...p.theme, overrides: {} } }));
 
-  const ensureWeddingDefaults = () => {
-    // Inserta defaults si no existen (no pisa nada existente)
+  // ✅ Auto-crea defaults de boda al entrar a /customize (solo si faltan)
+  // ✅ Auto-crea defaults de boda al entrar a /customize (solo si faltan)
+  useEffect(() => {
+    const missingCountdown = !config.copy?.countdown;
+    const missingItinerary = !config.copy?.itinerary;
+    const missingPhotoStrip = !config.copy?.photoStrip;
+    const missingStory = !config.copy?.story;
+
+    const homeSections = config.pages?.home?.sections || [];
+    const homeHas = new Set(homeSections.map((s) => s.id));
+
+    const missingHomeSection =
+      !homeHas.has("hero") ||
+      !homeHas.has("countdown") ||
+      !homeHas.has("photoStrip") ||
+      !homeHas.has("itinerary") ||
+      !homeHas.has("story") ||
+      !homeHas.has("benefits") ||
+      !homeHas.has("gallery");
+
+    const needs =
+      missingCountdown || missingItinerary || missingPhotoStrip || missingStory || missingHomeSection;
+    if (!needs) return;
+
     setConfig((p) => {
       const next = structuredClone ? structuredClone(p) : JSON.parse(JSON.stringify(p));
 
@@ -181,7 +203,6 @@ export default function Customize() {
         ],
       });
 
-      // ✅ NUEVOS: photoStrip + story (para que no haya undefined)
       ensureCopyPath(next, ["copy", "photoStrip"], {
         enabled: true,
         kicker: "Momentos",
@@ -202,12 +223,6 @@ export default function Customize() {
         ],
       });
 
-      // También asegura que existan pages.home.sections
-      if (!next.pages) next.pages = {};
-      if (!next.pages.home) next.pages.home = {};
-      if (!Array.isArray(next.pages.home.sections)) next.pages.home.sections = [];
-
-      // ✅ opcional: añadir secciones boda a la home si no están
       ensureHomeSection(next, "hero", true);
       ensureHomeSection(next, "countdown", true);
       ensureHomeSection(next, "photoStrip", true);
@@ -218,10 +233,16 @@ export default function Customize() {
 
       return next;
     });
+  }, [
+    config.copy?.countdown,
+    config.copy?.itinerary,
+    config.copy?.photoStrip,
+    config.copy?.story,
+    config.pages?.home?.sections,
+    setConfig,
+  ]);
 
-    setMsg("✅ Defaults de boda creados (Countdown + Itinerario + PhotoStrip + Story).");
-    setTimeout(() => setMsg(""), 2200);
-  };
+
 
   const homeSectionIds = useMemo(
     () => new Set((config.pages?.home?.sections || []).map((s) => s.id)),
@@ -282,12 +303,6 @@ export default function Customize() {
           {/* GENERAL */}
           {active === "general" ? (
             <div className="space-y-6 border-t border-[var(--border)] pt-5">
-              <div className="flex gap-2">
-                <Button variant="primary" onClick={ensureWeddingDefaults}>
-                  Crear defaults boda
-                </Button>
-              </div>
-
               <div className="space-y-2">
                 <div className="text-sm font-semibold">Apariencia</div>
                 <select

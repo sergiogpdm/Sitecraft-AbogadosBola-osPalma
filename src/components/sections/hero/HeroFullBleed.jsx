@@ -61,7 +61,7 @@ export default function HeroFullBleed({ data, preview = false }) {
       <Container className="relative">
         <div className="max-w-3xl">
           {badge ? (
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[rgba(11,18,32,0.75)] px-4 py-2 text-xs text-[var(--muted)] backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[var(--muted)] backdrop-blur">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{ background: "linear-gradient(90deg,var(--accentA),var(--accentB))" }}
@@ -114,7 +114,7 @@ export default function HeroFullBleed({ data, preview = false }) {
               {qiItems.slice(0, 6).map((it, idx) => (
                 <div
                   key={`${it?.label ?? "qi"}-${idx}`}
-                  className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[rgba(11,18,32,0.75)] px-4 py-3 backdrop-blur"
+                  className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 backdrop-blur"
                 >
                   <div className="mt-[2px] text-sm">{iconFor(it?.icon)}</div>
                   <div className="min-w-0">
@@ -128,13 +128,13 @@ export default function HeroFullBleed({ data, preview = false }) {
             </div>
           ) : null}
 
-          {/* ✅ Stats (añadidas) */}
+          {/* ✅ Stats */}
           {safeStats.length ? (
             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {safeStats.map((s, idx) => (
                 <div
                   key={`${s?.title ?? "stat"}-${idx}`}
-                  className="rounded-2xl border border-[var(--border)] bg-[rgba(11,18,32,0.75)] px-4 py-3 backdrop-blur"
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 backdrop-blur"
                 >
                   <div className="text-sm font-semibold text-[var(--text)]">{s?.title ?? "—"}</div>
                   <div className="mt-1 text-xs text-[var(--muted)]">{s?.desc ?? ""}</div>
