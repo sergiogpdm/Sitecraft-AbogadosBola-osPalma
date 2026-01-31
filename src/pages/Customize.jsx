@@ -30,6 +30,10 @@ import Contact from "../pages/Contact.jsx";
 import PhotoStripSection from "../components/sections/PhotoStripSection.jsx";
 import StorySection from "../components/sections/StorySection.jsx";
 
+import ContactForm from "../components/forms/ContactForm.jsx";
+import ContactFormEditor from "../components/customize/ContactFormEditor.jsx";
+
+
 const COMPONENTS = [
   { key: "general", label: "General" },
   { key: "hero", label: "Hero" },
@@ -38,7 +42,6 @@ const COMPONENTS = [
   { key: "promo", label: "Promo CTA" },
   { key: "gallery", label: "Gallery" },
 
-  // ✅ boda
   { key: "countdown", label: "Countdown" },
   { key: "itinerary", label: "Itinerario" },
   { key: "photoStrip", label: "PhotoStrip" },
@@ -46,6 +49,8 @@ const COMPONENTS = [
 
   { key: "footer", label: "Footer" },
   { key: "contact", label: "Contact" },
+  { key: "contactForm", label: "ContactForm" },
+
 ];
 
 const HOME_SECTION_CATALOG = [
@@ -58,11 +63,13 @@ const HOME_SECTION_CATALOG = [
   { id: "promoCta", label: "Promo CTA" },
   { id: "promo", label: "Promo CTA (alt)" },
 
-  // ✅ boda
   { id: "countdown", label: "Countdown" },
   { id: "itinerary", label: "Itinerario" },
   { id: "photoStrip", label: "PhotoStrip" },
   { id: "story", label: "Story / Timeline" },
+
+  { id: "contactForm", label: "ContactForm" },
+
 ];
 
 function setOverride(setConfig, key, value) {
@@ -160,6 +167,8 @@ export default function Customize() {
     const missingItinerary = !config.copy?.itinerary;
     const missingPhotoStrip = !config.copy?.photoStrip;
     const missingStory = !config.copy?.story;
+    const missingContactForm = !config.copy?.contactForm;
+
 
     const homeSections = config.pages?.home?.sections || [];
     const homeHas = new Set(homeSections.map((s) => s.id));
@@ -171,10 +180,17 @@ export default function Customize() {
       !homeHas.has("itinerary") ||
       !homeHas.has("story") ||
       !homeHas.has("benefits") ||
+      !homeHas.has("contactForm") ||
       !homeHas.has("gallery");
 
     const needs =
-      missingCountdown || missingItinerary || missingPhotoStrip || missingStory || missingHomeSection;
+      missingCountdown ||
+      missingItinerary ||
+      missingPhotoStrip ||
+      missingStory ||
+      missingContactForm ||
+      missingHomeSection;
+
     if (!needs) return;
 
     setConfig((p) => {
@@ -223,6 +239,21 @@ export default function Customize() {
         ],
       });
 
+      ensureCopyPath(next, ["copy", "contactForm"], {
+        variant: "card",
+        title: "Pide información",
+        subtitle: "Rellena el formulario y te contestamos lo antes posible.",
+        submitText: "Enviar",
+        minMessageLength: 10,
+        labels: { name: "Nombre", phone: "Teléfono", message: "Consulta" },
+        placeholders: {
+          name: "Tu nombre",
+          phone: "+34 600 000 000",
+          message: "Cuéntanos tu caso…",
+        },
+      });
+
+
       ensureHomeSection(next, "hero", true);
       ensureHomeSection(next, "countdown", true);
       ensureHomeSection(next, "photoStrip", true);
@@ -230,6 +261,8 @@ export default function Customize() {
       ensureHomeSection(next, "story", true);
       ensureHomeSection(next, "benefits", true);
       ensureHomeSection(next, "gallery", true);
+      ensureHomeSection(next, "contactForm", true);
+
 
       return next;
     });
@@ -238,9 +271,11 @@ export default function Customize() {
     config.copy?.itinerary,
     config.copy?.photoStrip,
     config.copy?.story,
+    config.copy?.contactForm,
     config.pages?.home?.sections,
     setConfig,
   ]);
+
 
 
 
@@ -728,6 +763,14 @@ export default function Customize() {
               <ContactEditor config={config} setConfig={setConfig} />
             </div>
           ) : null}
+
+          {active === "contactForm" ? (
+            <div className="border-t border-[var(--border)] pt-5">
+              <ContactFormEditor config={config} setConfig={setConfig} />
+            </div>
+          ) : null}
+
+
         </GlassCard>
 
         {/* RIGHT */}
@@ -787,6 +830,14 @@ export default function Customize() {
                 <StorySection data={config.copy?.story} preview />
               </div>
             </ComponentPreview>
+          ) : active === "contactForm" ? (
+            <ComponentPreview title={`Preview — ${activeLabel}`}>
+              <div className="bg-[var(--bg)] p-6">
+                <div className="mx-auto max-w-2xl">
+                  <ContactForm {...(config.copy?.contactForm || {})} />
+                </div>
+              </div>
+            </ComponentPreview>
           ) : active === "footer" ? (
             <ComponentPreview title={`Preview — ${activeLabel}`}>
               <div className="bg-[var(--bg)]">
@@ -810,6 +861,7 @@ export default function Customize() {
               </div>
             </GlassCard>
           )}
+
 
           {/* Export / Import (debajo del preview) */}
           <GlassCard className="p-6 space-y-3">

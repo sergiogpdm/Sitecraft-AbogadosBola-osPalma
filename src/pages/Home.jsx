@@ -12,6 +12,9 @@ import ItinerarySection from "../components/sections/ItinerarySection.jsx";
 import PhotoStripSection from "../components/sections/PhotoStripSection.jsx";
 import StorySection from "../components/sections/StorySection.jsx";
 
+// ✅ NUEVO: sección wrapper para el formulario
+import ContactFormSection from "../components/sections/ContactFormSection.jsx";
+
 import { useSiteConfig } from "../context/SiteConfigContext.jsx";
 
 const SECTION_MAP = {
@@ -29,6 +32,9 @@ const SECTION_MAP = {
   itinerary: ItinerarySection,
   photoStrip: PhotoStripSection,
   story: StorySection,
+
+  // ✅ NUEVO
+  contactForm: ContactFormSection,
 };
 
 export default function Home() {
@@ -57,6 +63,9 @@ export default function Home() {
             itinerary: config.copy?.itinerary,
             photoStrip: config.copy?.photoStrip,
             story: config.copy?.story,
+
+            // ✅ NUEVO
+            contactForm: config.copy?.contactForm,
           };
 
           const data = dataMap[s.id];
