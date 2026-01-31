@@ -5,7 +5,7 @@ export const siteConfig = {
     "emojiLogo": "⚖️"
   },
   "links": {
-    "whatsapp": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización%20de%20este%20año.",
+    "whatsapp": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
     "instagram": "https://instagram.com/TU_CUENTA",
     "facebook": "https://facebook.com/TU_PAGINA",
     "maps": "https://www.google.com/maps/search/?api=1&query=Avda.%20de%20la%20Estaci%C3%B3n%20N%C2%BA%206%209%C2%BA%201%C2%AA%2C%2004005%20Almer%C3%ADa%2C%20Espa%C3%B1a"
@@ -22,24 +22,23 @@ export const siteConfig = {
     "showNavbarCta": false
   },
   "theme": {
-    "preset": "mintNight",
-    "mode": "glass",
+    "preset": "roseLuxury",
+    "mode": "flat",
     "scheme": "light",
     "overrides": {
-      "--accentA": "#0F4C81",
-      "--accentB": "#2563EB",
-      "--bg": "#F8FAFC",
-      "--text": "#0F172A",
-      "--muted": "#475569",
-      "--border": "#E2E8F0",
+      "--bg": "#F3F4F6",
       "--card": "#FFFFFF",
-      "--radius": "22px",
-      "--cardBlur": "12px",
+      "--text": "#111827",
+      "--muted": "#4B5563",
+      "--border": "#E5E7EB",
+      "--accentA": "#1E3A8A",
+      "--accentB": "#2563EB",
+      "--accentSoft": "#3B82F6",
+      "--radius": "18px",
       "--btnRadius": "999px",
-      "--shadowY": "18px",
-      "--shadowBlur": "70px",
-      "--shadowOpacity": "0.14",
-      "--heroPattern": "none",
+      "--shadowY": "14px",
+      "--shadowBlur": "40px",
+      "--shadowOpacity": "0.08",
       "--fontDisplay": "Inter",
       "--fontBody": "Inter"
     }
@@ -52,28 +51,16 @@ export const siteConfig = {
           "enabled": true
         },
         {
+          "id": "benefits",
+          "enabled": true
+        },
+        {
           "id": "promoCta",
           "enabled": true
         },
         {
           "id": "contactForm",
           "enabled": true
-        },
-        {
-          "id": "benefits",
-          "enabled": false
-        },
-        {
-          "id": "gallery",
-          "enabled": false
-        },
-        {
-          "id": "bestSellers",
-          "enabled": false
-        },
-        {
-          "id": "story",
-          "enabled": false
         },
         {
           "id": "countdown",
@@ -86,6 +73,14 @@ export const siteConfig = {
         {
           "id": "itinerary",
           "enabled": false
+        },
+        {
+          "id": "story",
+          "enabled": false
+        },
+        {
+          "id": "gallery",
+          "enabled": false
         }
       ]
     },
@@ -93,7 +88,7 @@ export const siteConfig = {
       "enabled": false
     },
     "contact": {
-      "enabled": true
+      "enabled": false
     },
     "customize": {
       "enabled": true
@@ -101,72 +96,66 @@ export const siteConfig = {
   },
   "copy": {
     "hero": {
-      "badge": "Extranjería · Regularización · Residencia",
-      "titleA": "Información sobre",
-      "titleHighlight": "Permisos de trabajo",
-      "titleB": "en España",
-      "subtitle": "Te ayudamos con la gestión relacionada con la regularización anunciada por el Gobierno. Revisión de requisitos, documentación y acompañamiento durante el trámite.",
-      "ctaText": "Consultar por WhatsApp",
-      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización%20de%20este%20año.",
-      "secondaryText": "Ver contacto",
+      "badge": "Despacho de Extranjería",
+      "titleA": "Asesoramiento sobre",
+      "titleHighlight": "regularización y permisos",
+      "titleB": "de residencia en España",
+      "subtitle": "Ofrecemos orientación legal y gestión de trámites relacionados con extranjería, arraigo y autorizaciones de trabajo.",
+      "ctaText": "Contactar por WhatsApp",
+      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+      "secondaryText": "Ver datos de contacto",
       "secondaryHref": "/contact",
       "variant": "fullBleed",
-      "primaryCta": {
-        "label": "",
-        "type": "link",
-        "href": "",
-        "value": "",
-        "message": "",
-        "newTab": false
-      },
       "visual": {
-        "imageSrc": "/demo/gallery/bufete.jpeg"
+        "imageSrc": ""
+      },
+      "background": {
+        "style": "bars"
       }
     },
     "benefits": {
-      "enabled": true,
-      "kicker": "Qué hacemos",
-      "title": "Te lo ponemos fácil",
-      "subtitle": "Un punto de contacto rápido y claro para resolver dudas y preparar tu trámite.",
+      "kicker": "Servicios",
+      "title": "Tramitación clara y acompañada",
+      "subtitle": "Te orientamos desde la primera consulta hasta la resolución del expediente.",
       "items": [
         {
-          "title": "Estudio gratuito inicial",
-          "text": "Te decimos si encajas y qué alternativa es más realista."
+          "title": "Estudio inicial del caso",
+          "text": "Revisamos tu situación y viabilidad antes de iniciar el trámite."
         },
         {
-          "title": "Checklist de documentos",
-          "text": "Te guiamos con lo que necesitas según tu caso."
+          "title": "Preparación de documentación",
+          "text": "Te indicamos exactamente qué presentar y cómo hacerlo."
         },
         {
           "title": "Presentación y seguimiento",
-          "text": "Control de plazos, requerimientos y estado del expediente."
+          "text": "Controlamos plazos y notificaciones oficiales."
         },
         {
           "title": "Recursos y subsanaciones",
-          "text": "Si hay incidencias, te ayudamos a solucionarlas."
+          "text": "Actuamos ante requerimientos o incidencias."
         }
       ]
     },
     "promo": {
-      "kicker": "Consulta inmediata",
-      "title": "¿Tienes dudas sobre tu caso?",
-      "subtitle": "Escríbenos por WhatsApp y te orientamos sobre los pasos a seguir.",
+      "kicker": "Consulta rápida",
+      "title": "¿Quieres saber si puedes regularizar tu situación?",
+      "subtitle": "Escríbenos y revisamos tu caso de forma personalizada.",
       "ctaText": "Hablar por WhatsApp",
-      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización%20de%20este%20año."
+      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización."
     },
     "contactForm": {
       "enabled": true,
       "kicker": "Formulario",
-      "title": "Déjanos tu consulta",
-      "subtitle": "Si prefieres, envíanos un mensaje y te respondemos lo antes posible.",
+      "title": "Envíanos tu consulta",
+      "subtitle": "Déjanos tus datos y te responderemos lo antes posible.",
       "fields": {
         "nameLabel": "Nombre",
         "phoneLabel": "Teléfono",
-        "emailLabel": "Correo",
-        "messageLabel": "Tu consulta"
+        "emailLabel": "Correo electrónico",
+        "messageLabel": "Consulta"
       },
-      "submitText": "Enviar",
-      "successText": "¡Mensaje enviado! Te contactaremos pronto."
+      "submitText": "Enviar mensaje",
+      "successText": "Mensaje enviado correctamente."
     },
     "footer": {
       "title": "Despacho de Extranjería · Almería",
@@ -175,16 +164,16 @@ export const siteConfig = {
     },
     "contactPage": {
       "title": "Contacto",
-      "subtitle": "Pide cita o envíanos tu consulta. Atención con cita previa.",
-      "addressTitle": "Ubicación",
+      "subtitle": "Atención con cita previa.",
+      "addressTitle": "Ubicación del despacho",
       "addressNote": "Avda. de la Estación Nº 6 9º 1ª - 04005 – Almería",
       "mapUrl": "https://www.google.com/maps/search/?api=1&query=Avda.%20de%20la%20Estaci%C3%B3n%20N%C2%BA%206%209%C2%BA%201%C2%AA%2C%2004005%20Almer%C3%ADa%2C%20Espa%C3%B1a",
-      "phoneText": "Llamar",
+      "phoneText": "Llamar al despacho",
       "phoneTel": "+34914185069",
-      "emailText": "Escribir email",
+      "emailText": "Enviar correo",
       "emailTo": "info@jdimmigration.es",
       "whatsappText": "Escribir por WhatsApp",
-      "whatsappUrl": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización%20de%20este%20año."
+      "whatsappUrl": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización."
     },
     "countdown": {
       "enabled": true,
@@ -263,15 +252,6 @@ export const siteConfig = {
           "title": "La pedida",
           "text": "Añade aquí un texto corto.",
           "image": ""
-        }
-      ]
-    },
-    "gallery": {
-      "items": [
-        {
-          "imageSrc": "",
-          "alt": "Imagen",
-          "caption": ""
         }
       ]
     }
