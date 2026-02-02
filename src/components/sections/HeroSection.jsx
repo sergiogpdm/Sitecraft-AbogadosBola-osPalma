@@ -8,14 +8,13 @@ export default function HeroSection({ data, preview = false }) {
 
   const Variant = getHeroVariantComponent(hero.variant);
 
-  const heroText = hero?.textColor || "";
-  const heroMuted = hero?.mutedColor || "";
-
   return (
     <div
       style={{
-        "--heroText": heroText,
-        "--heroMuted": heroMuted,
+        "--heroText": hero?.textColor || "",
+        "--heroMuted": hero?.mutedColor || "",
+        "--heroAccentA": hero?.highlightA || "",
+        "--heroAccentB": hero?.highlightB || "",
       }}
       className="text-[color:var(--heroText,var(--text))]"
     >

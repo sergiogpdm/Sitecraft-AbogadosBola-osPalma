@@ -42,21 +42,16 @@ export default function HeroFullBleed({ data, preview = false }) {
 
   return (
     <section className="relative overflow-hidden py-16 sm:py-20">
-      {bg ? (
-        <div className="absolute inset-0">
-          <img
-            src={bg}
-            alt={visual.imageAlt || "Background"}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-          <div className="absolute inset-0" style={{ background: "rgba(7,10,18,0.65)" }} />
-        </div>
-      ) : (
-        <div className="absolute inset-0">
+      <div className="absolute inset-0">
+        {bg ? (
+          <>
+            <img src={bg} className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        ) : (
           <HeroBackdrop bg={hero.background} />
-        </div>
-      )}
+        )}
+      </div>
 
       <Container className="relative">
         <div className="max-w-3xl">
@@ -64,7 +59,10 @@ export default function HeroFullBleed({ data, preview = false }) {
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[color:var(--heroMuted,var(--muted))] backdrop-blur">
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: "linear-gradient(90deg,var(--accentA),var(--accentB))" }}
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, var(--heroAccentA, var(--accentA)), var(--heroAccentB, var(--accentB)))",
+                }}
               />
               {badge}
             </div>
@@ -80,7 +78,10 @@ export default function HeroFullBleed({ data, preview = false }) {
             {titleHighlight ? (
               <span
                 className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "linear-gradient(90deg, var(--accentA), var(--accentB))" }}
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, var(--heroAccentA, var(--accentA)), var(--heroAccentB, var(--accentB)))",
+                }}
               >
                 {titleHighlight}
               </span>
@@ -89,55 +90,27 @@ export default function HeroFullBleed({ data, preview = false }) {
           </motion.h1>
 
           {subtitle ? (
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--heroMuted,var(--muted))] sm:text-base">
+            <p className="mt-4 max-w-xl text-sm text-[color:var(--heroMuted,var(--muted))]">
               {subtitle}
             </p>
           ) : null}
 
           {(primary?.label || secondary?.label) ? (
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              {primary?.label ? (
-                <Button variant="primary" onClick={handle(primary)}>
-                  {primary.label}
-                </Button>
-              ) : null}
-              {secondary?.label ? (
-                <Button variant="default" onClick={handle(secondary)}>
-                  {secondary.label}
-                </Button>
-              ) : null}
+            <div className="mt-6 flex gap-3">
+              {primary?.label ? <Button onClick={handle(primary)}>{primary.label}</Button> : null}
+              {secondary?.label ? <Button variant="default" onClick={handle(secondary)}>{secondary.label}</Button> : null}
             </div>
           ) : null}
 
           {showQI && qiItems.length ? (
-            <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-2 gap-2">
               {qiItems.slice(0, 6).map((it, idx) => (
-                <div
-                  key={`${it?.label ?? "qi"}-${idx}`}
-                  className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 backdrop-blur"
-                >
-                  <div className="mt-[2px] text-sm">{iconFor(it?.icon)}</div>
-                  <div className="min-w-0">
-                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">{it?.label ?? ""}</div>
-                    <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))] truncate">
-                      {it?.value ?? ""}
-                    </div>
+                <div key={idx} className="flex gap-3 rounded-xl bg-[var(--card)] px-4 py-3">
+                  <div>{iconFor(it.icon)}</div>
+                  <div>
+                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">{it.label}</div>
+                    <div className="font-semibold text-[color:var(--heroText,var(--text))]">{it.value}</div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : null}
-
-          {/* ✅ Stats */}
-          {safeStats.length ? (
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {safeStats.map((s, idx) => (
-                <div
-                  key={`${s?.title ?? "stat"}-${idx}`}
-                  className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 backdrop-blur"
-                >
-                  <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))]">{s?.title ?? "—"}</div>
-                  <div className="mt-1 text-xs text-[color:var(--heroMuted,var(--muted))]">{s?.desc ?? ""}</div>
                 </div>
               ))}
             </div>

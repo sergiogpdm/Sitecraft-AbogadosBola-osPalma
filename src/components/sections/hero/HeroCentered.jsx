@@ -53,7 +53,10 @@ export default function HeroCentered({ data, preview = false }) {
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[color:var(--heroMuted,var(--muted))]">
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: "linear-gradient(90deg,var(--accentA),var(--accentB))" }}
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, var(--heroAccentA, var(--accentA)), var(--heroAccentB, var(--accentB)))",
+                }}
               />
               {badge}
             </div>
@@ -69,7 +72,10 @@ export default function HeroCentered({ data, preview = false }) {
             {titleHighlight ? (
               <span
                 className="bg-clip-text text-transparent"
-                style={{ backgroundImage: "linear-gradient(90deg, var(--accentA), var(--accentB))" }}
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, var(--heroAccentA, var(--accentA)), var(--heroAccentB, var(--accentB)))",
+                }}
               >
                 {titleHighlight}
               </span>
@@ -85,16 +91,8 @@ export default function HeroCentered({ data, preview = false }) {
 
           {(primary?.label || secondary?.label) ? (
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              {primary?.label ? (
-                <Button variant="primary" onClick={handle(primary)}>
-                  {primary.label}
-                </Button>
-              ) : null}
-              {secondary?.label ? (
-                <Button variant="default" onClick={handle(secondary)}>
-                  {secondary.label}
-                </Button>
-              ) : null}
+              {primary?.label ? <Button variant="primary" onClick={handle(primary)}>{primary.label}</Button> : null}
+              {secondary?.label ? <Button variant="default" onClick={handle(secondary)}>{secondary.label}</Button> : null}
             </div>
           ) : null}
 
@@ -117,7 +115,6 @@ export default function HeroCentered({ data, preview = false }) {
             </div>
           ) : null}
 
-          {/* ✅ Stats (añadidas) */}
           {safeStats.length ? (
             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {safeStats.map((s, idx) => (
@@ -137,12 +134,7 @@ export default function HeroCentered({ data, preview = false }) {
               <GlassCard className="p-5 sm:p-6 text-left">
                 <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
                   {visual.imageSrc ? (
-                    <img
-                      src={visual.imageSrc}
-                      alt={visual.imageAlt || "Imagen"}
-                      className="h-64 w-full object-cover"
-                      loading="lazy"
-                    />
+                    <img src={visual.imageSrc} alt={visual.imageAlt || "Imagen"} className="h-64 w-full object-cover" />
                   ) : (
                     <div className="h-64 w-full" />
                   )}

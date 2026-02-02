@@ -261,6 +261,30 @@ export default function HeroEditor({ config, setConfig }) {
         </div>
       </div>
 
+      {/* Hero highlight gradient */}
+      <div className="grid grid-cols-2 gap-3 mt-3">
+        <div>
+          <label className="mb-1 block text-xs font-medium">Hero highlight A</label>
+          <input
+            type="color"
+            value={hero?.highlightA || "#1E3A8A"}
+            onChange={(e) => setHero((prev) => ({ ...prev, highlightA: e.target.value }))}
+            className="h-10 w-full cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--card)]"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-xs font-medium">Hero highlight B</label>
+          <input
+            type="color"
+            value={hero?.highlightB || "#2563EB"}
+            onChange={(e) => setHero((prev) => ({ ...prev, highlightB: e.target.value }))}
+            className="h-10 w-full cursor-pointer rounded-lg border border-[var(--border)] bg-[var(--card)]"
+          />
+        </div>
+      </div>
+
+
       {/* CTA principal */}
       <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
         <div className="text-sm font-semibold">CTA principal</div>
