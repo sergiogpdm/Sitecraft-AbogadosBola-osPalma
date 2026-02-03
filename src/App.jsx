@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.jsx";
 import Legal from "./pages/Legal.jsx";
 import Privacy from "./pages/Privacy.jsx";
 import Cookies from "./pages/Cookies.jsx";
+import CookieBanner from "./components/CookieBanner.jsx";
 import { useSiteConfig } from "./context/SiteConfigContext.jsx";
 
 function CustomizeGuard({ children }) {
@@ -24,6 +25,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      {/* ✅ Banner de cookies global (no depende del config ni del customize) */}
+      <CookieBanner />
+
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
@@ -46,7 +50,7 @@ export default function App() {
             }
           />
 
-          {/* Legal (si quieres también se puede controlar desde config, pero ahora fijo) */}
+          {/* Legal */}
           <Route path="/legal" element={<Legal />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/cookies" element={<Cookies />} />
