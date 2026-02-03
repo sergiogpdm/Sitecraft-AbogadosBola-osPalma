@@ -1,6 +1,6 @@
 import Container from "./Container.jsx";
 import { useSiteConfig } from "../context/SiteConfigContext.jsx";
-import sitecraftLogo from "../assets/logogpdm.jpeg";
+import sitecraftLogo from "../assets/powered_by.png";
 
 const SOCIAL = [
   { key: "instagram", label: "Instagram" },
@@ -146,7 +146,7 @@ export default function Footer({ data, preview = false }) {
           <img
             src={sitecraftLogo}
             alt="Sitecraft"
-            className="h-9 w-auto opacity-80"
+            className="h-20 w-auto opacity-80"
             draggable="false"
           />
         </div>
