@@ -2,7 +2,8 @@ export const siteConfig = {
   "brand": {
     "name": "Abogados Bolaños Palma",
     "tagline": "Regularización inmigrantes 2026",
-    "emojiLogo": "⚖️"
+    "emojiLogo": "⚖️",
+    "logoImage": "/demo/gallery/logobufete.jpeg",
   },
   "links": {
     "whatsapp": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
@@ -15,7 +16,7 @@ export const siteConfig = {
     "phoneTel": "+34914185069",
     "email": "info@jdimmigration.es",
     "address": "Avda. de la Estación Nº 6 9º 1ª - 04005 – Almería",
-    "hours": "L–V: 09:30–14:00 · 17:00–20:00",
+    "hours": "",
     "phone": "614987195"
   },
   "layout": {
@@ -213,7 +214,7 @@ export const siteConfig = {
       "destination": {
         "type": "whatsapp",
         "emailTo": "",
-        "whatsappTo": "646973301",
+        "whatsappTo": "614987195",
         "subject": "Nueva consulta desde la web"
       },
       "enabled": true,
