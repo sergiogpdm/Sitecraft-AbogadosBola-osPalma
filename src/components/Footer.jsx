@@ -24,9 +24,9 @@ export default function Footer({ data, preview = false }) {
   };
 
   const legal = footer.legal || {
-    legalNotice: { label: "Aviso legal", url: "/legal" },
+    
     privacy: { label: "Protección de datos", url: "/privacy" },
-    cookies: { label: "Política de cookies", url: "/cookies" },
+    
   };
 
   const year = new Date().getFullYear();
