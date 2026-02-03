@@ -26,7 +26,7 @@ export default function App() {
   return (
     <BrowserRouter>
       {/* ✅ Banner de cookies global (no depende del config ni del customize) */}
-      <CookieBanner />
+      {/* <CookieBanner /> */}
 
       <Routes>
         <Route element={<SiteLayout />}>
