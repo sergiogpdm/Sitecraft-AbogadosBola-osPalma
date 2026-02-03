@@ -41,7 +41,7 @@ export default function HeroFullBleed({ data, preview = false }) {
   };
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
+    <section className="relative min-h-[75vh] overflow-hidden py-16 sm:py-20 flex items-center">
       <div className="absolute inset-0">
         {bg ? (
           <>
@@ -56,7 +56,7 @@ export default function HeroFullBleed({ data, preview = false }) {
       <Container className="relative">
         <div className="max-w-3xl">
           {badge ? (
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[color:var(--heroMuted,var(--muted))] backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-[color:var(--heroMuted,var(--muted))] backdrop-blur">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{
@@ -72,7 +72,7 @@ export default function HeroFullBleed({ data, preview = false }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+            className="mt-6 text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
           >
             {titleA ? <span>{titleA} </span> : null}
             {titleHighlight ? (
@@ -90,20 +90,20 @@ export default function HeroFullBleed({ data, preview = false }) {
           </motion.h1>
 
           {subtitle ? (
-            <p className="mt-4 max-w-xl text-sm text-[color:var(--heroMuted,var(--muted))]">
+            <p className="mt-6 max-w-xl text-lg sm:text-xl text-[color:var(--heroMuted,var(--muted))]">
               {subtitle}
             </p>
           ) : null}
 
           {(primary?.label || secondary?.label) ? (
-            <div className="mt-6 flex gap-3">
+            <div className="mt-8 flex gap-3">
               {primary?.label ? <Button onClick={handle(primary)}>{primary.label}</Button> : null}
               {secondary?.label ? <Button variant="default" onClick={handle(secondary)}>{secondary.label}</Button> : null}
             </div>
           ) : null}
 
           {showQI && qiItems.length ? (
-            <div className="mt-6 grid grid-cols-2 gap-2">
+            <div className="mt-8 grid grid-cols-2 gap-2">
               {qiItems.slice(0, 6).map((it, idx) => (
                 <div key={idx} className="flex gap-3 rounded-xl bg-[var(--card)] px-4 py-3">
                   <div>{iconFor(it.icon)}</div>

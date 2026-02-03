@@ -16,7 +16,6 @@ export default function Footer({ data, preview = false }) {
   const brand = config.brand ?? {};
   const contact = config.contact ?? {};
 
-  // Defaults robustos por si faltan keys
   const social = footer.social || {
     instagram: { enabled: false, url: "" },
     facebook: { enabled: false, url: "" },
@@ -34,30 +33,44 @@ export default function Footer({ data, preview = false }) {
 
   return (
     <>
-      <footer className="border-t border-[var(--border)] bg-[var(--bg)]">
-        <Container className="py-12">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-            {/* 1) Marca */}
-            <div className="space-y-3">
-              <div className="text-sm font-semibold text-[var(--text)]">
-                {brand.name}
+      <footer className="relative overflow-hidden border-t border-[var(--border)] bg-[var(--bg)]">
+        {/* Glow A de fondo */}
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute -top-32 -left-32 h-80 w-80 rounded-full"
+            style={{
+              background: "var(--glowA)",
+              filter: `blur(var(--glowBlur, 64px))`,
+            }}
+          />
+        </div>
+
+        <Container className="relative py-12 sm:py-14">
+          <div className="grid gap-10 lg:grid-cols-12">
+            {/* Marca */}
+            <div className="space-y-4 lg:col-span-4">
+              <div>
+                <div className="text-base font-semibold tracking-tight text-[var(--text)]">
+                  {brand.name}
+                </div>
+                {brand.tagline && (
+                  <div className="text-xs text-[var(--muted)]">{brand.tagline}</div>
+                )}
               </div>
 
-              {brand.tagline ? (
-                <div className="text-xs text-[var(--muted)]">{brand.tagline}</div>
-              ) : null}
-
-              {footer.about ? (
-                <p className="text-sm text-[var(--muted)] leading-relaxed">
+              {footer.about && (
+                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-prose">
                   {footer.about}
                 </p>
-              ) : null}
+              )}
 
-              <div className="text-xs text-[var(--muted)]">© {year}</div>
+              <div className="pt-2 text-xs text-[var(--muted)] opacity-80">
+                © {year}
+              </div>
             </div>
 
-            {/* 2) RRSS (iconos) */}
-            <div className="space-y-3">
+            {/* Redes */}
+            <div className="space-y-4 lg:col-span-3">
               <div className="text-sm font-semibold text-[var(--text)]">Redes</div>
 
               <div className="flex flex-wrap gap-2">
@@ -72,36 +85,45 @@ export default function Footer({ data, preview = false }) {
                 ))}
               </div>
 
-              {!hasAnyEnabledSocial(social) ? (
+              {!hasAnyEnabledSocial(social) && (
                 <div className="text-sm text-[var(--muted)] opacity-70">
                   (Sin redes configuradas)
                 </div>
-              ) : null}
+              )}
             </div>
 
-            {/* 3) Horario */}
-            <div className="space-y-3">
-              <div className="text-sm font-semibold text-[var(--text)]">Horario</div>
+            {/* Ubicación */}
+            <div className="space-y-4 lg:col-span-3">
+              <div className="text-sm font-semibold text-[var(--text)]">Ubicación</div>
 
               {contact.hours ? (
-                <p className="text-sm text-[var(--muted)]">{contact.hours}</p>
-              ) : (
-                <p className="text-sm text-[var(--muted)] opacity-70">
-                  (Añade el horario en Customize)
+                <p className="text-sm text-[var(--muted)] leading-relaxed">
+                  {contact.hours}
                 </p>
+              ) : (
+                <p className="text-sm text-[var(--muted)] opacity-70" />
               )}
 
-              {(contact.address || contact.phone) ? (
-                <p className="text-sm text-[var(--muted)]">
-                  {contact.address ? <>📍 {contact.address}</> : null}
-                  {contact.address && contact.phone ? " • " : null}
-                  {contact.phone ? <>📞 {contact.phone}</> : null}
-                </p>
-              ) : null}
+              {(contact.address || contact.phone) && (
+                <div className="space-y-2">
+                  {contact.address && (
+                    <p className="text-sm text-[var(--muted)]">
+                      <span className="mr-2">📍</span>
+                      {contact.address}
+                    </p>
+                  )}
+                  {contact.phone && (
+                    <p className="text-sm text-[var(--muted)]">
+                      <span className="mr-2">📞</span>
+                      {contact.phone}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* 4) Legal */}
-            <div className="space-y-3">
+            {/* Legal */}
+            <div className="space-y-4 lg:col-span-2">
               <div className="text-sm font-semibold text-[var(--text)]">Legal</div>
 
               <div className="space-y-2">
@@ -110,7 +132,7 @@ export default function Footer({ data, preview = false }) {
                 <LegalLink item={legal.cookies} preview={preview} />
               </div>
 
-              <div className="text-xs text-[var(--muted)] opacity-70">
+              <div className="pt-2 text-xs text-[var(--muted)] opacity-70">
                 Hecho con Sitecraft
               </div>
             </div>
@@ -118,7 +140,7 @@ export default function Footer({ data, preview = false }) {
         </Container>
       </footer>
 
-      {/* Franja fija (NO editable) */}
+      {/* Franja fija logo */}
       <div className="border-t border-[var(--border)] bg-[var(--bg)]">
         <div className="mx-auto flex max-w-6xl items-center justify-center py-6">
           <img
@@ -147,7 +169,7 @@ function SocialButton({ name, label, entry, preview }) {
   return (
     <button
       onClick={onClick}
-      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--card)] text-[var(--text)] hover:opacity-90 transition"
+      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--card)] text-[var(--text)] transition hover:-translate-y-[1px] hover:shadow-sm active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border)]"
       aria-label={label}
       title={label}
       type="button"
@@ -186,7 +208,6 @@ function SocialIcon({ name }) {
     );
   }
 
-  // X
   return (
     <svg {...common} fill="currentColor">
       <path d="M18.7 3H21l-6.9 7.9L22 21h-6.6l-3.9-5-4.3 5H3l7.4-8.5L2.8 3h6.8l3.6 4.6L18.7 3zm-2.3 16h1.7L7.6 4.9H5.7L16.4 19z" />
@@ -217,7 +238,7 @@ function LegalLink({ item, preview }) {
     <a
       href={url}
       onClick={onClick}
-      className="block text-sm text-[var(--muted)] underline decoration-transparent hover:decoration-current transition"
+      className="block text-sm text-[var(--muted)] underline underline-offset-4 decoration-transparent hover:decoration-current hover:text-[var(--text)] transition"
     >
       {item.label}
     </a>

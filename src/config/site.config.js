@@ -109,7 +109,7 @@ export const siteConfig = {
   },
   "copy": {
     "hero": {
-      "badge": "Abogados especialistas en Extranjería",
+      "badge": "",
       "titleA": "REGULARIZACIÓN",
       "titleHighlight": "2026",
       "titleB": "Permiso de trabajo y residencia",
@@ -120,12 +120,27 @@ export const siteConfig = {
       "secondaryHref": "/contact",
       "variant": "fullBleed",
       "visual": {
-        "imageSrc": ""
+        "imageSrc": "/demo/gallery/bufete.jpeg"
       },
       "background": {
         "style": "corners",
         "pattern": true
-      }
+      },
+      "textColor": "#ffffff",
+      "mutedColor": "#ffffff",
+      "quickInfo": {
+        "items": []
+      },
+      "primaryCta": {
+        "label": "",
+        "type": "link",
+        "href": "",
+        "value": "",
+        "message": "",
+        "newTab": false
+      },
+      "highlightA": "#8c5a5a",
+      "highlightB": "#bf1212"
     },
     "benefits": {
       "kicker": "Requisitos",
@@ -180,17 +195,35 @@ export const siteConfig = {
       "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización."
     },
     "contactForm": {
-      "enabled": true,
-      "kicker": "Contacto",
+      "variant": "card",
       "title": "Contacta con nosotros",
       "subtitle": "Déjanos tus datos y te responderemos lo antes posible.",
+      "submitText": "Enviar mensaje",
+      "minMessageLength": 0,
+      "labels": {
+        "name": "Nombre",
+        "phone": "Teléfono",
+        "message": "Consulta"
+      },
+      "placeholders": {
+        "name": "Tu nombre",
+        "phone": "+34 600 000 000",
+        "message": "Cuéntanos tu caso…"
+      },
+      "destination": {
+        "type": "whatsapp",
+        "emailTo": "",
+        "whatsappTo": "646973301",
+        "subject": "Nueva consulta desde la web"
+      },
+      "enabled": true,
+      "kicker": "Contacto",
       "fields": {
         "nameLabel": "Nombre",
         "phoneLabel": "Teléfono",
         "emailLabel": "Correo electrónico",
         "messageLabel": "Mensaje"
       },
-      "submitText": "Enviar mensaje",
       "successText": "Mensaje enviado correctamente."
     },
     "footer": {

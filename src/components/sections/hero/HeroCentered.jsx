@@ -42,7 +42,7 @@ export default function HeroCentered({ data, preview = false }) {
   };
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
+    <section className="relative min-h-[75vh] overflow-hidden py-16 sm:py-20 flex items-center">
       <div className="absolute inset-0">
         <HeroBackdrop bg={hero.background} />
       </div>
@@ -50,7 +50,7 @@ export default function HeroCentered({ data, preview = false }) {
       <Container className="relative">
         <div className="mx-auto max-w-3xl text-center">
           {badge ? (
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[color:var(--heroMuted,var(--muted))]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-[color:var(--heroMuted,var(--muted))]">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{
@@ -66,7 +66,7 @@ export default function HeroCentered({ data, preview = false }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+            className="mt-6 text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
           >
             {titleA ? <span>{titleA} </span> : null}
             {titleHighlight ? (
@@ -84,20 +84,28 @@ export default function HeroCentered({ data, preview = false }) {
           </motion.h1>
 
           {subtitle ? (
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--heroMuted,var(--muted))] sm:text-base">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--heroMuted,var(--muted))] sm:text-xl">
               {subtitle}
             </p>
           ) : null}
 
           {(primary?.label || secondary?.label) ? (
-            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              {primary?.label ? <Button variant="primary" onClick={handle(primary)}>{primary.label}</Button> : null}
-              {secondary?.label ? <Button variant="default" onClick={handle(secondary)}>{secondary.label}</Button> : null}
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              {primary?.label ? (
+                <Button variant="primary" onClick={handle(primary)}>
+                  {primary.label}
+                </Button>
+              ) : null}
+              {secondary?.label ? (
+                <Button variant="default" onClick={handle(secondary)}>
+                  {secondary.label}
+                </Button>
+              ) : null}
             </div>
           ) : null}
 
           {showQI && qiItems.length ? (
-            <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {qiItems.slice(0, 6).map((it, idx) => (
                 <div
                   key={`${it?.label ?? "qi"}-${idx}`}
@@ -105,8 +113,10 @@ export default function HeroCentered({ data, preview = false }) {
                 >
                   <div className="mt-[2px] text-sm">{iconFor(it?.icon)}</div>
                   <div className="min-w-0">
-                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">{it?.label ?? ""}</div>
-                    <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))] truncate">
+                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">
+                      {it?.label ?? ""}
+                    </div>
+                    <div className="text-base font-semibold text-[color:var(--heroText,var(--text))] truncate">
                       {it?.value ?? ""}
                     </div>
                   </div>
@@ -116,25 +126,33 @@ export default function HeroCentered({ data, preview = false }) {
           ) : null}
 
           {safeStats.length ? (
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {safeStats.map((s, idx) => (
                 <div
                   key={`${s?.title ?? "stat"}-${idx}`}
                   className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-left"
                 >
-                  <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))]">{s?.title ?? "—"}</div>
-                  <div className="mt-1 text-xs text-[color:var(--heroMuted,var(--muted))]">{s?.desc ?? ""}</div>
+                  <div className="text-base font-semibold text-[color:var(--heroText,var(--text))]">
+                    {s?.title ?? "—"}
+                  </div>
+                  <div className="mt-1 text-sm text-[color:var(--heroMuted,var(--muted))]">
+                    {s?.desc ?? ""}
+                  </div>
                 </div>
               ))}
             </div>
           ) : null}
 
           {showVisual ? (
-            <div className="mt-8">
+            <div className="mt-10">
               <GlassCard className="p-5 sm:p-6 text-left">
                 <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
                   {visual.imageSrc ? (
-                    <img src={visual.imageSrc} alt={visual.imageAlt || "Imagen"} className="h-64 w-full object-cover" />
+                    <img
+                      src={visual.imageSrc}
+                      alt={visual.imageAlt || "Imagen"}
+                      className="h-64 w-full object-cover"
+                    />
                   ) : (
                     <div className="h-64 w-full" />
                   )}

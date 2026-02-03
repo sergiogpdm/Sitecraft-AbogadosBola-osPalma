@@ -51,7 +51,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
   };
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
+    <section className="relative min-h-[75vh] overflow-hidden py-16 sm:py-20 flex items-center">
       <div className="absolute inset-0">
         <HeroBackdrop bg={hero.background} />
       </div>
@@ -64,7 +64,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
         >
           <div>
             {badge ? (
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-xs text-[color:var(--heroMuted,var(--muted))]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-[color:var(--heroMuted,var(--muted))]">
                 <span
                   className="h-1.5 w-1.5 rounded-full"
                   style={{
@@ -80,7 +80,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+              className="mt-6 text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
             >
               {titleA ? <span>{titleA} </span> : null}
               {titleHighlight ? (
@@ -98,13 +98,13 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
             </motion.h1>
 
             {subtitle ? (
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--heroMuted,var(--muted))] sm:text-base">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--heroMuted,var(--muted))] sm:text-xl">
                 {subtitle}
               </p>
             ) : null}
 
             {(primary?.label || secondary?.label) ? (
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 {primary?.label ? (
                   <Button variant="primary" onClick={handlePrimary}>
                     {primary.label}
@@ -119,7 +119,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
             ) : null}
 
             {showQI && qiItems.length ? (
-              <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {qiItems.slice(0, 6).map((it, idx) => (
                   <div
                     key={`${it?.label ?? "qi"}-${idx}`}
@@ -130,7 +130,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
                       <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">
                         {it?.label ?? ""}
                       </div>
-                      <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))] truncate">
+                      <div className="text-base font-semibold text-[color:var(--heroText,var(--text))] truncate">
                         {it?.value ?? ""}
                       </div>
                     </div>
@@ -140,16 +140,16 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
             ) : null}
 
             {safeStats.length ? (
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {safeStats.map((s, idx) => (
                   <div
                     key={`${s?.title ?? "stat"}-${idx}`}
                     className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-3"
                   >
-                    <div className="text-sm font-semibold text-[color:var(--heroText,var(--text))]">
+                    <div className="text-base font-semibold text-[color:var(--heroText,var(--text))]">
                       {s?.title ?? "—"}
                     </div>
-                    <div className="mt-1 text-xs text-[color:var(--heroMuted,var(--muted))]">
+                    <div className="mt-1 text-sm text-[color:var(--heroMuted,var(--muted))]">
                       {s?.desc ?? ""}
                     </div>
                   </div>
@@ -183,7 +183,7 @@ export default function HeroSplitMediaCard({ data, preview = false }) {
                       <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">
                         {c?.label ?? "—"}
                       </div>
-                      <div className="mt-1 font-semibold">{c?.value ?? ""}</div>
+                      <div className="mt-1 text-base font-semibold">{c?.value ?? ""}</div>
                     </div>
                   ))}
                 </div>
