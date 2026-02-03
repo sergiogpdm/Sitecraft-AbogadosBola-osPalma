@@ -151,3 +151,5 @@ Desarrollado como proyecto base para webs modernas y reutilizables.
 
 “Una sola base. Infinitas webs.”
 ::contentReference[oaicite:0]{index=0}
+
+a
