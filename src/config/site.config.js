@@ -110,39 +110,40 @@ export const siteConfig = {
   },
   "copy": {
     "hero": {
-      "badge": "",
-      "titleA": "REGULARIZACIÓN",
-      "titleHighlight": "2026",
-      "titleB": "Permiso de trabajo y residencia",
-      "subtitle": "Te asesoramos durante todo el proceso legal, con estudio previo del caso y seguimiento personalizado.",
-      "ctaText": "Contactar por WhatsApp",
-      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
-      "secondaryText": "Ver datos de contacto",
-      "secondaryHref": "/contact",
-      "variant": "fullBleed",
-      "visual": {
-        "imageSrc": "/demo/gallery/bufete.jpeg"
-      },
-      "background": {
-        "style": "corners",
-        "pattern": true
-      },
-      "textColor": "#ffffff",
-      "mutedColor": "#ffffff",
-      "quickInfo": {
-        "items": []
-      },
-      "primaryCta": {
-        "label": "",
-        "type": "link",
-        "href": "",
-        "value": "",
-        "message": "",
-        "newTab": false
-      },
-      "highlightA": "#e20303",
-      "highlightB": "#b60c0c"
-    },
+  "badge": "Abogados especialistas en Extranjería",
+  "titleA": "REGULARIZACIÓN DE INMIGRANTES",
+  "titleHighlight": "2026",
+  "titleB": "",
+  "subtitle": "Conseguimos tu Permiso de Trabajo y Residencia",
+  "ctaText": "Contactar por WhatsApp",
+  "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+  "secondaryText": "Ver datos de contacto",
+  "secondaryHref": "/contact",
+  "variant": "fullBleed",
+  "visual": {
+    "imageSrc": "/demo/gallery/bufete.jpeg"
+  },
+  "background": {
+    "style": "corners",
+    "pattern": true
+  },
+  "textColor": "#ffffff",
+  "mutedColor": "#ffffff",
+  "quickInfo": {
+    "items": []
+  },
+  "primaryCta": {
+    "label": "",
+    "type": "link",
+    "href": "",
+    "value": "",
+    "message": "",
+    "newTab": false
+  },
+  "highlightA": "#e20303",
+  "highlightB": "#b60c0c"
+}
+,
     "benefits": {
       "kicker": "Requisitos",
       "title": "Qué requisitos debes cumplir para solicitar tu permiso:",

@@ -56,7 +56,7 @@ export default function HeroFullBleed({ data, preview = false }) {
       <Container className="relative">
         <div className="max-w-3xl">
           {badge ? (
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-[color:var(--heroMuted,var(--muted))] backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white px-4 py-2 text-sm text-black backdrop-blur">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{
@@ -90,10 +90,12 @@ export default function HeroFullBleed({ data, preview = false }) {
           </motion.h1>
 
           {subtitle ? (
-            <p className="mt-6 max-w-xl text-lg sm:text-xl text-[color:var(--heroMuted,var(--muted))]">
-              {subtitle}
-            </p>
+            <p
+              className="mt-6 max-w-xl text-lg sm:text-xl text-[color:var(--heroMuted,var(--muted))]"
+              dangerouslySetInnerHTML={{ __html: subtitle }}
+            />
           ) : null}
+
 
           {(primary?.label || secondary?.label) ? (
             <div className="mt-8 flex gap-3">
