@@ -70,7 +70,7 @@ export default function Footer({ data, preview = false }) {
             </div>
 
             {/* Redes */}
-            <div className="space-y-4 lg:col-span-3">
+            {/*<div className="space-y-4 lg:col-span-3">
               <div className="text-sm font-semibold text-[var(--text)]">Redes</div>
 
               <div className="flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ export default function Footer({ data, preview = false }) {
                   (Sin redes configuradas)
                 </div>
               )}
-            </div>
+            </div> */}
 
             {/* Ubicación */}
             <div className="space-y-4 lg:col-span-3">
