@@ -131,21 +131,22 @@ export default function Navbar() {
    * - el contenedor del logo baja a h-11 para encajar mejor en navbar
    */
   const logoBox = (
-    <span className="flex items-center h-11 w-auto px-3 rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden">
-      {brand.logoImage ? (
-        <img
-          src={brand.logoImage}
-          alt={brand.name || "Logo"}
-          className="block h-full max-h-full w-auto max-w-[140px] object-contain"
-          loading="eager"
-        />
-      ) : (
-        <span className="grid h-11 w-11 place-items-center" aria-hidden="true">
-          {brand.emojiLogo}
-        </span>
-      )}
-    </span>
-  );
+  <span className="flex items-center h-11">
+    {brand.logoImage ? (
+      <img
+        src={brand.logoImage}
+        alt={brand.name || "Logo"}
+        className="block h-full w-auto max-w-[160px] object-contain"
+        loading="eager"
+      />
+    ) : (
+      <span className="grid h-11 w-11 place-items-center" aria-hidden="true">
+        {brand.emojiLogo}
+      </span>
+    )}
+  </span>
+);
+
 
   return (
     <motion.header
