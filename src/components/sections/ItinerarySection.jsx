@@ -18,48 +18,66 @@ export default function ItinerarySection({ data, preview }) {
           </p>
         ) : null}
 
-        <div className="mt-6 sm:mt-8 space-y-3">
+        <div className="mt-6 sm:mt-8 space-y-4">
           {(data.items || []).map((item, idx) => (
             <div
               key={idx}
               className={[
-                "rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5",
-                "flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4",
+                "group relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5",
+                "transition-all duration-200",
+                "hover:-translate-y-[1px] hover:shadow-[0_var(--shadowY)_var(--shadowBlur)_rgba(0,0,0,var(--shadowOpacity))]",
               ].join(" ")}
             >
-              {/* Columna izquierda (hora + tag) */}
-              <div className="sm:min-w-[120px] sm:shrink-0">
-                <div className="text-base sm:text-lg font-bold leading-snug">
+              {/* Acento lateral */}
+              <div
+                className="absolute left-0 top-0 h-full w-[4px] opacity-70"
+                style={{
+                  background:
+                    "linear-gradient(180deg, var(--heroAccentA, var(--accentA)), var(--heroAccentB, var(--accentB)))",
+                }}
+                aria-hidden="true"
+              />
+
+              <div className="flex items-start gap-4">
+                {/* Número tipo sello */}
+                <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-white/70 text-sm font-extrabold text-[var(--accentA)] backdrop-blur">
                   {item.time}
+                  <div
+                    className="absolute -inset-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{
+                      boxShadow:
+                        "0 0 0 3px rgba(177,18,38,0.12)",
+                    }}
+                    aria-hidden="true"
+                  />
                 </div>
 
-                {item.tag ? (
-                  <div className="mt-2 inline-flex rounded-full border border-[var(--border)] px-2 py-1 text-[11px] font-semibold text-[var(--muted)]">
-                    {item.tag}
+                {/* Contenido */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 text-base font-semibold leading-snug">
+                    {item.icon ? (
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[var(--border)] bg-white/60 text-base">
+                        {item.icon}
+                      </span>
+                    ) : null}
+                    <span className="truncate">{item.title}</span>
                   </div>
-                ) : null}
-              </div>
 
-              {/* Contenido */}
-              <div className="min-w-0 flex-1">
-                <div className="text-base font-semibold leading-snug">
-                  {item.title}
+                  {item.desc ? (
+                    <p className="mt-1 text-sm text-[var(--muted)] leading-relaxed">
+                      {item.desc}
+                    </p>
+                  ) : null}
+
+                  {item.location ? (
+                    <div className="mt-2 text-sm flex flex-wrap gap-x-1">
+                      <span className="font-semibold">Lugar:</span>
+                      <span className="text-[var(--muted)] break-words">
+                        {item.location}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
-
-                {item.desc ? (
-                  <p className="mt-1 text-sm text-[var(--muted)] leading-relaxed break-words">
-                    {item.desc}
-                  </p>
-                ) : null}
-
-                {item.location ? (
-                  <div className="mt-2 text-sm flex flex-wrap gap-x-1">
-                    <span className="font-semibold">Lugar:</span>
-                    <span className="text-[var(--muted)] break-words">
-                      {item.location}
-                    </span>
-                  </div>
-                ) : null}
               </div>
             </div>
           ))}
