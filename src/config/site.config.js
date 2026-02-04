@@ -6,15 +6,15 @@ export const siteConfig = {
     "logoImage": "/demo/gallery/logobufete.jpeg"
   },
   "links": {
-    "whatsapp": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+    "whatsapp": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
     "instagram": "https://instagram.com/TU_CUENTA",
     "facebook": "https://facebook.com/TU_PAGINA",
     "maps": "https://www.google.com/maps/search/?api=1&query=Avda.%20de%20la%20Estaci%C3%B3n%20N%C2%BA%206%209%C2%BA%201%C2%AA%2C%2004005%20Almer%C3%ADa%2C%20Espa%C3%B1a"
   },
   "contact": {
-    "phoneDisplay": "(+34) 914 185 069",
-    "phoneTel": "+34914185069",
-    "email": "info@jdimmigration.es",
+    "phoneDisplay": "(+34) 614 987 195",
+    "phoneTel": "+34614987195",
+    "email": "info@papeles26.es",
     "address": "Avda. de la Estación Nº 6 9º 1ª - 04005 – Almería",
     "hours": "",
     "phone": "614987195"
@@ -116,7 +116,7 @@ export const siteConfig = {
   "titleB": "",
   "subtitle": "Conseguimos tu Permiso de Trabajo y Residencia",
   "ctaText": "Contactar por WhatsApp",
-  "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+  "ctaHref": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
   "secondaryText": "Ver datos de contacto",
   "secondaryHref": "/contact",
   "variant": "fullBleed",
@@ -194,7 +194,7 @@ export const siteConfig = {
       "title": "Somos Abogados Especialistas en Extranjería",
       "subtitle": "No somos gestoría. Revisamos tu expediente de principio a final con seguimiento personalizado.\nAlto porcentaje de éxito en solicitudes aprobadas.",
       "ctaText": "Hablar por WhatsApp",
-      "ctaHref": "https://wa.me/34TU_NUMERO_AQUI?text=Hola,%20quiero%20información%20sobre%20la%20regularización."
+      "ctaHref": "https://wa.me/34614987195"
     },
     "contactForm": {
       "variant": "card",

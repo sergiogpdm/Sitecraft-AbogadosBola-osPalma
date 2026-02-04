@@ -24,9 +24,7 @@ export default function Footer({ data, preview = false }) {
   };
 
   const legal = footer.legal || {
-    
     privacy: { label: "Protección de datos", url: "/privacy" },
-    
   };
 
   const year = new Date().getFullYear();
@@ -46,20 +44,23 @@ export default function Footer({ data, preview = false }) {
         </div>
 
         <Container className="relative py-12 sm:py-14">
-          <div className="grid gap-10 lg:grid-cols-12">
+          {/* ✅ Grid centrado + texto centrado en móvil */}
+          <div className="grid gap-10 lg:grid-cols-12 justify-items-center text-center lg:text-left">
             {/* Marca */}
-            <div className="space-y-4 lg:col-span-4">
+            <div className="space-y-4 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div>
                 <div className="text-base font-semibold tracking-tight text-[var(--text)]">
                   {brand.name}
                 </div>
                 {brand.tagline && (
-                  <div className="text-xs text-[var(--muted)]">{brand.tagline}</div>
+                  <div className="text-xs text-[var(--muted)]">
+                    {brand.tagline}
+                  </div>
                 )}
               </div>
 
               {footer.about && (
-                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-prose">
+                <p className="text-sm text-[var(--muted)] leading-relaxed max-w-sm">
                   {footer.about}
                 </p>
               )}
@@ -70,10 +71,11 @@ export default function Footer({ data, preview = false }) {
             </div>
 
             {/* Redes */}
-            {/*<div className="space-y-4 lg:col-span-3">
+            {/*
+            <div className="space-y-4 lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="text-sm font-semibold text-[var(--text)]">Redes</div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
                 {SOCIAL.map(({ key, label }) => (
                   <SocialButton
                     key={key}
@@ -90,11 +92,14 @@ export default function Footer({ data, preview = false }) {
                   (Sin redes configuradas)
                 </div>
               )}
-            </div> */}
+            </div>
+            */}
 
             {/* Ubicación */}
-            <div className="space-y-4 lg:col-span-3">
-              <div className="text-sm font-semibold text-[var(--text)]">Ubicación</div>
+            <div className="space-y-4 lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-left">
+              <div className="text-sm font-semibold text-[var(--text)]">
+                Ubicación
+              </div>
 
               {contact.hours ? (
                 <p className="text-sm text-[var(--muted)] leading-relaxed">
@@ -107,14 +112,14 @@ export default function Footer({ data, preview = false }) {
               {(contact.address || contact.phone) && (
                 <div className="space-y-2">
                   {contact.address && (
-                    <p className="text-sm text-[var(--muted)]">
-                      <span className="mr-2">📍</span>
+                    <p className="text-sm text-[var(--muted)] flex items-center gap-2 justify-center lg:justify-start">
+                      <span>📍</span>
                       {contact.address}
                     </p>
                   )}
                   {contact.phone && (
-                    <p className="text-sm text-[var(--muted)]">
-                      <span className="mr-2">📞</span>
+                    <p className="text-sm text-[var(--muted)] flex items-center gap-2 justify-center lg:justify-start">
+                      <span>📞</span>
                       {contact.phone}
                     </p>
                   )}
@@ -123,10 +128,10 @@ export default function Footer({ data, preview = false }) {
             </div>
 
             {/* Legal */}
-            <div className="space-y-4 lg:col-span-2">
+            <div className="space-y-4 lg:col-span-2 flex flex-col items-center lg:items-start text-center lg:text-left">
               <div className="text-sm font-semibold text-[var(--text)]">Legal</div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-col items-center lg:items-start">
                 <LegalLink item={legal.legalNotice} preview={preview} />
                 <LegalLink item={legal.privacy} preview={preview} />
                 <LegalLink item={legal.cookies} preview={preview} />
