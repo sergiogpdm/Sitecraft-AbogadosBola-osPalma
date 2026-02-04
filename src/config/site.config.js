@@ -1,6 +1,6 @@
 export const siteConfig = {
   "brand": {
-    "name": "Abogados Bolaños Palma",
+    "name": "Bolaños y Palma Abogados",
     "tagline": "Regularización inmigrantes 2026",
     "emojiLogo": "⚖️",
     "logoImage": "/demo/gallery/logobufete.jpeg"
@@ -198,8 +198,8 @@ export const siteConfig = {
     },
     "contactForm": {
       "variant": "card",
-      "title": "Contacta con nosotros",
-      "subtitle": "Déjanos tus datos y te responderemos lo antes posible.",
+      "title": "LLÁMANOS",
+      "subtitle": "",
       "submitText": "Enviar mensaje",
       "minMessageLength": 0,
       "fields": {
@@ -235,11 +235,11 @@ export const siteConfig = {
       "small": "© 2026",
       "social": {
         "instagram": {
-          "enabled": true,
+          "enabled": false,
           "url": ""
         },
         "facebook": {
-          "enabled": true,
+          "enabled": false,
           "url": ""
         },
         "tiktok": {
