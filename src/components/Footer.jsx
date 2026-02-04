@@ -138,7 +138,7 @@ export default function Footer({ data, preview = false }) {
               </div>
 
               <div className="pt-2 text-xs text-[var(--muted)] opacity-70">
-                Hecho con Sitecraft
+                
               </div>
             </div>
           </div>

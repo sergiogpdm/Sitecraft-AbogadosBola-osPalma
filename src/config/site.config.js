@@ -50,145 +50,82 @@ export const siteConfig = {
   "pages": {
     "home": {
       "sections": [
-        {
-          "id": "hero",
-          "enabled": true,
-          "label": "Inicio"
-        },
-        {
-          "id": "benefits",
-          "enabled": true,
-          "label": "Requisitos"
-        },
-        {
-          "id": "itinerary",
-          "enabled": true,
-          "label": "Documentación"
-        },
-        {
-          "id": "promoCta",
-          "enabled": true,
-          "label": "",
-          "hideFromNav": true
-        },
-        {
-          "id": "contactForm",
-          "enabled": true,
-          "label": "Contacto"
-        },
-        {
-          "id": "countdown",
-          "enabled": false,
-          "label": "Cuenta atrás"
-        },
-        {
-          "id": "photoStrip",
-          "enabled": false,
-          "label": "Momentos"
-        },
-        {
-          "id": "story",
-          "enabled": false,
-          "label": "Nuestra historia"
-        },
-        {
-          "id": "gallery",
-          "enabled": false,
-          "label": "Galería"
-        }
+        { "id": "hero", "enabled": true, "label": "Inicio" },
+        { "id": "benefits", "enabled": true, "label": "Requisitos" },
+        { "id": "itinerary", "enabled": true, "label": "Documentación" },
+        { "id": "promoCta", "enabled": true, "label": "", "hideFromNav": true },
+        { "id": "contactForm", "enabled": true, "label": "Contacto" },
+        { "id": "countdown", "enabled": false, "label": "Cuenta atrás" },
+        { "id": "photoStrip", "enabled": false, "label": "Momentos" },
+        { "id": "story", "enabled": false, "label": "Nuestra historia" },
+        { "id": "gallery", "enabled": false, "label": "Galería" }
       ]
     },
-    "menu": {
-      "enabled": false
-    },
-    "contact": {
-      "enabled": false
-    },
-    "customize": {
-      "enabled": true
-    }
+    "menu": { "enabled": false },
+    "contact": { "enabled": false },
+    "customize": { "enabled": true }
   },
+
+  // ✅ ESPAÑOL (tu copy original intacto)
   "copy": {
     "hero": {
-  "badge": "Abogados especialistas en Extranjería",
-  "titleA": "REGULARIZACIÓN DE INMIGRANTES",
-  "titleHighlight": "2026",
-  "titleB": "",
-  "subtitle": "Conseguimos tu Permiso de Trabajo y Residencia",
-  "ctaText": "Contactar por WhatsApp",
-  "ctaHref": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
-  "secondaryText": "Ver datos de contacto",
-  "secondaryHref": "/contact",
-  "variant": "fullBleed",
-  "visual": {
-    "imageSrc": "/demo/gallery/bufete.jpeg"
-  },
-  "background": {
-    "style": "corners",
-    "pattern": true
-  },
-  "textColor": "#ffffff",
-  "mutedColor": "#ffffff",
-  "quickInfo": {
-    "items": []
-  },
-  "primaryCta": {
-    "label": "",
-    "type": "link",
-    "href": "",
-    "value": "",
-    "message": "",
-    "newTab": false
-  },
-  "highlightA": "#e20303",
-  "highlightB": "#b60c0c"
-}
-,
+      "badge": "Abogados especialistas en Extranjería",
+      "titleA": "REGULARIZACIÓN DE INMIGRANTES",
+      "titleHighlight": "2026",
+      "titleB": "",
+      "subtitle": "Conseguimos tu Permiso de Trabajo y Residencia",
+      "ctaText": "Contactar por WhatsApp",
+      "ctaHref": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+      "secondaryText": "Ver datos de contacto",
+      "secondaryHref": "/contact",
+      "variant": "fullBleed",
+      "visual": {
+        "imageSrc": "/demo/gallery/bufete.jpeg"
+      },
+      "background": {
+        "style": "corners",
+        "pattern": true
+      },
+      "textColor": "#ffffff",
+      "mutedColor": "#ffffff",
+      "quickInfo": {
+        "items": []
+      },
+      "primaryCta": {
+        "label": "",
+        "type": "link",
+        "href": "",
+        "value": "",
+        "message": "",
+        "newTab": false
+      },
+      "highlightA": "#e20303",
+      "highlightB": "#b60c0c"
+    },
+
     "benefits": {
       "kicker": "Requisitos",
       "title": "Qué requisitos debes cumplir para solicitar tu permiso:",
       "subtitle": "Empieza YA. El plazo termina el 30 de junio de 2026.",
       "items": [
-        {
-          "title": "Estar en España antes del 31 de diciembre de 2025",
-          "text": ""
-        },
-        {
-          "title": "Llevar en España un mínimo de 5 meses viviendo",
-          "text": ""
-        },
-        {
-          "title": "No tener antecedentes penales",
-          "text": ""
-        }
+        { "title": "Estar en España antes del 31 de diciembre de 2025", "text": "" },
+        { "title": "Llevar en España un mínimo de 5 meses viviendo", "text": "" },
+        { "title": "No tener antecedentes penales", "text": "" }
       ]
     },
+
     "itinerary": {
       "enabled": true,
       "kicker": "Documentación",
       "title": "Qué documentación necesitas:",
       "desc": "",
       "items": [
-        {
-          "time": "1",
-          "title": "Certificado de antecedentes penales de tu país",
-          "desc": "Es importante que lo solicites YA.",
-          "location": ""
-        },
-        {
-          "time": "2",
-          "title": "Pasaporte vigente",
-          "desc": "",
-          "location": ""
-        },
-        {
-          "time": "3",
-          "title": "Acreditar mínimo 5 meses viviendo en España",
-          "desc": "Certificado de empadronamiento, informes médicos, envío de dinero, facturas…",
-          "location": ""
-        }
+        { "time": "1", "title": "Certificado de antecedentes penales de tu país", "desc": "Es importante que lo solicites YA.", "location": "" },
+        { "time": "2", "title": "Pasaporte vigente", "desc": "", "location": "" },
+        { "time": "3", "title": "Acreditar mínimo 5 meses viviendo en España", "desc": "Certificado de empadronamiento, informes médicos, envío de dinero, facturas…", "location": "" }
       ]
     },
+
     "promo": {
       "kicker": "",
       "title": "Somos Abogados Especialistas en Extranjería",
@@ -196,6 +133,7 @@ export const siteConfig = {
       "ctaText": "Hablar por WhatsApp",
       "ctaHref": "https://wa.me/34614987195"
     },
+
     "contactForm": {
       "variant": "card",
       "title": "LLÁMANOS",
@@ -229,29 +167,19 @@ export const siteConfig = {
       "kicker": "Contacto",
       "successText": "Mensaje enviado correctamente."
     },
+
     "footer": {
       "title": "Despacho de Extranjería · Almería",
       "subtitle": "Regularización · Arraigo · Nacionalidad",
       "small": "© 2026",
       "social": {
-        "instagram": {
-          "enabled": false,
-          "url": ""
-        },
-        "facebook": {
-          "enabled": false,
-          "url": ""
-        },
-        "tiktok": {
-          "enabled": false,
-          "url": ""
-        },
-        "x": {
-          "enabled": false,
-          "url": ""
-        }
+        "instagram": { "enabled": false, "url": "" },
+        "facebook": { "enabled": false, "url": "" },
+        "tiktok": { "enabled": false, "url": "" },
+        "x": { "enabled": false, "url": "" }
       }
     },
+
     "countdown": {
       "enabled": true,
       "kicker": "Nos casamos",
@@ -261,44 +189,127 @@ export const siteConfig = {
       "note": "¡Te esperamos! Guarda la fecha ✨",
       "location": ""
     },
+
     "photoStrip": {
       "enabled": true,
       "kicker": "Momentos",
       "title": "Un poquito de nosotros",
       "note": "",
-      "photos": [
-        "",
-        "",
-        "",
-        "",
-        ""
-      ]
+      "photos": ["", "", "", "", ""]
     },
+
     "story": {
       "enabled": true,
       "kicker": "Nuestra historia",
       "title": "Cómo empezó todo",
       "desc": "Un resumen rápido de nuestro camino hasta el gran día.",
       "items": [
+        { "date": "2022", "title": "Nos conocimos", "text": "Añade aquí un texto corto.", "image": "" },
+        { "date": "2024", "title": "Nuestro primer viaje", "text": "Añade aquí un texto corto.", "image": "" },
+        { "date": "2025", "title": "La pedida", "text": "Añade aquí un texto corto.", "image": "" }
+      ]
+    }
+  },
+
+  // ✅ ÁRABE (nuevo, sin tocar lo de español)
+  "copy_ar": {
+    "hero": {
+      "badge": "محامون مختصون في شؤون الهجرة",
+      "titleA": "تسوية أوضاع المهاجرين",
+      "titleHighlight": "2026",
+      "titleB": "",
+      "subtitle": "نساعدك في الحصول على تصريح العمل والإقامة",
+      "ctaText": "تواصل عبر واتساب",
+      "ctaHref": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
+      "secondaryText": "عرض معلومات الاتصال",
+      "secondaryHref": "/contact",
+      "variant": "fullBleed",
+      "visual": { "imageSrc": "/demo/gallery/bufete.jpeg" },
+      "background": { "style": "corners", "pattern": true },
+      "textColor": "#ffffff",
+      "mutedColor": "#ffffff",
+      "quickInfo": { "items": [] },
+      "primaryCta": { "label": "", "type": "link", "href": "", "value": "", "message": "", "newTab": false },
+      "highlightA": "#e20303",
+      "highlightB": "#b60c0c"
+    },
+
+    "benefits": {
+      "kicker": "الشروط",
+      "title": "الشروط",
+      "subtitle": "ابدأ الآن، آخر موعد هو 30 يونيو 2026",
+      "items": [
+        { "title": "يجب أن تكون في إسبانيا قبل 31 ديسمبر 2025", "text": "" },
+        { "title": "يجب أن تعيش في إسبانيا على الأقل 5 أشهر", "text": "" },
+        { "title": "ألا يكون لديك سجل جنائي", "text": "" }
+      ]
+    },
+
+    "itinerary": {
+      "enabled": true,
+      "kicker": "الوثائق المطلوبة",
+      "title": "الوثائق المطلوبة",
+      "desc": "",
+      "items": [
+        { "time": "1", "title": "شهادة عدم محكومية من بلدك", "desc": "(من المهم طلبها الآن)", "location": "" },
+        { "time": "2", "title": "جواز سفر ساري المفعول", "desc": "", "location": "" },
         {
-          "date": "2022",
-          "title": "Nos conocimos",
-          "text": "Añade aquí un texto corto.",
-          "image": ""
-        },
-        {
-          "date": "2024",
-          "title": "Nuestro primer viaje",
-          "text": "Añade aquí un texto corto.",
-          "image": ""
-        },
-        {
-          "date": "2025",
-          "title": "La pedida",
-          "text": "Añade aquí un texto corto.",
-          "image": ""
+          "time": "3",
+          "title": "إثبات أنك تعيش في إسبانيا منذ 5 أشهر على الأقل",
+          "desc": "(شهادة السكن، تقارير طبية، تحويلات مالية، فواتير…)",
+          "location": ""
         }
       ]
+    },
+
+    "promo": {
+      "kicker": "",
+      "title": "نحن محامون متخصصون في شؤون الهجرة.",
+      "subtitle": "لسنا مكتب خدمات، نراجع ملفك من البداية حتى النهاية مع متابعة شخصية.\nنسبة عالية من النجاح في الطلبات المقبولة.",
+      "ctaText": "تواصل عبر واتساب",
+      "ctaHref": "https://wa.me/34614987195"
+    },
+
+    "contactForm": {
+      "variant": "card",
+      "title": "سنتصل بك",
+      "subtitle": "",
+      "submitText": "إرسال",
+      "minMessageLength": 0,
+      "fields": {
+        "nameLabel": "الاسم",
+        "phoneLabel": "الهاتف",
+        "emailLabel": "البريد الإلكتروني",
+        "messageLabel": "الرسالة",
+        "message": false
+      },
+      "labels": { "name": "الاسم", "phone": "الهاتف", "message": "استفسار" },
+      "placeholders": {
+        "name": "اسمك",
+        "phone": "+34 600 000 000",
+        "message": "أخبرنا عن حالتك…"
+      },
+      "destination": {
+        "type": "whatsapp",
+        "emailTo": "",
+        "whatsappTo": "614987195",
+        "subject": "استفسار جديد من الموقع"
+      },
+      "enabled": true,
+      "kicker": "الاتصال",
+      "successText": "تم إرسال الرسالة بنجاح."
+    },
+
+    "footer": {
+      "title": "مكتب شؤون الهجرة · ألمرية",
+      "subtitle": "التسوية · التجذر · الجنسية",
+      "small": "© 2026",
+      "social": {
+        "instagram": { "enabled": false, "url": "" },
+        "facebook": { "enabled": false, "url": "" },
+        "tiktok": { "enabled": false, "url": "" },
+        "x": { "enabled": false, "url": "" }
+      }
     }
   }
 };

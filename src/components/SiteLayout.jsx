@@ -8,6 +8,7 @@ import { presets } from "../config/presets.js";
 import { googleFonts } from "../config/fonts.js";
 import LanguageToggle from "./LanguageToggle";
 
+
 function applyVars(el, vars) {
   if (!el || !vars) return;
   for (const [k, v] of Object.entries(vars)) {
