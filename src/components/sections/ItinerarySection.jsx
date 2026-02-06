@@ -23,7 +23,8 @@ export default function ItinerarySection({ data, preview }) {
             <div
               key={idx}
               className={[
-                "group relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5",
+                // 🔧 Quitamos overflow-hidden para que no “corte” el texto
+                "group relative rounded-3xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5",
                 "transition-all duration-200",
                 "hover:-translate-y-[1px] hover:shadow-[0_var(--shadowY)_var(--shadowBlur)_rgba(0,0,0,var(--shadowOpacity))]",
               ].join(" ")}
@@ -45,38 +46,46 @@ export default function ItinerarySection({ data, preview }) {
                   <div
                     className="absolute -inset-[2px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{
-                      boxShadow:
-                        "0 0 0 3px rgba(177,18,38,0.12)",
+                      boxShadow: "0 0 0 3px rgba(177,18,38,0.12)",
                     }}
                     aria-hidden="true"
                   />
                 </div>
 
                 {/* Contenido */}
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 text-base font-semibold leading-snug">
+                {/* 🔧 w-full + min-w-0 para que el texto calcule bien el ancho en flex */}
+                <div className="min-w-0 w-full flex-1 pr-1">
+                  <div className="flex items-start gap-2">
                     {item.icon ? (
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-[var(--border)] bg-white/60 text-base">
+                      <span className="mt-[2px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[var(--border)] bg-white/60 text-base">
                         {item.icon}
                       </span>
                     ) : null}
-                    <span className="truncate">{item.title}</span>
-                  </div>
 
-                  {item.desc ? (
-                    <p className="mt-1 text-sm text-[var(--muted)] leading-relaxed">
-                      {item.desc}
-                    </p>
-                  ) : null}
+                    {/* 🔧 En vez de truncate, permitimos wrap (2 líneas en móvil) */}
+                    <div className="min-w-0">
+                      <div className="text-base font-semibold leading-snug break-words">
+                        <span className="block sm:line-clamp-2">
+                          {item.title}
+                        </span>
+                      </div>
 
-                  {item.location ? (
-                    <div className="mt-2 text-sm flex flex-wrap gap-x-1">
-                      <span className="font-semibold">Lugar:</span>
-                      <span className="text-[var(--muted)] break-words">
-                        {item.location}
-                      </span>
+                      {item.desc ? (
+                        <p className="mt-1 text-sm text-[var(--muted)] leading-relaxed break-words">
+                          {item.desc}
+                        </p>
+                      ) : null}
+
+                      {item.location ? (
+                        <div className="mt-2 text-sm flex flex-wrap gap-x-1">
+                          <span className="font-semibold">Lugar:</span>
+                          <span className="text-[var(--muted)] break-words">
+                            {item.location}
+                          </span>
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
+                  </div>
                 </div>
               </div>
             </div>
