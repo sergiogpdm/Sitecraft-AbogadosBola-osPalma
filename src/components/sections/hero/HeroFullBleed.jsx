@@ -45,7 +45,13 @@ export default function HeroFullBleed({ data, preview = false }) {
       <div className="absolute inset-0">
         {bg ? (
           <>
-            <img src={bg} className="h-full w-full object-cover" />
+            <img
+              src={bg}
+              alt={titleA || titleHighlight || titleB || "Hero"}
+              className="h-full w-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
             <div className="absolute inset-0 bg-black/60" />
           </>
         ) : (
@@ -72,7 +78,7 @@ export default function HeroFullBleed({ data, preview = false }) {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mt-6 text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl"
+            className="mt-6 text-4xl font-semibold tracking-tight sm:text-6xl lg:text-7xl break-words"
           >
             {titleA ? <span>{titleA} </span> : null}
             {titleHighlight ? (
@@ -96,22 +102,34 @@ export default function HeroFullBleed({ data, preview = false }) {
             />
           ) : null}
 
-
           {(primary?.label || secondary?.label) ? (
             <div className="mt-8 flex gap-3">
-              {primary?.label ? <Button onClick={handle(primary)}>{primary.label}</Button> : null}
-              {secondary?.label ? <Button variant="default" onClick={handle(secondary)}>{secondary.label}</Button> : null}
+              {primary?.label ? (
+                <Button onClick={handle(primary)}>{primary.label}</Button>
+              ) : null}
+              {secondary?.label ? (
+                <Button variant="default" onClick={handle(secondary)}>
+                  {secondary.label}
+                </Button>
+              ) : null}
             </div>
           ) : null}
 
           {showQI && qiItems.length ? (
             <div className="mt-8 grid grid-cols-2 gap-2">
               {qiItems.slice(0, 6).map((it, idx) => (
-                <div key={idx} className="flex gap-3 rounded-xl bg-[var(--card)] px-4 py-3">
+                <div
+                  key={idx}
+                  className="flex gap-3 rounded-xl bg-[var(--card)] px-4 py-3"
+                >
                   <div>{iconFor(it.icon)}</div>
                   <div>
-                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">{it.label}</div>
-                    <div className="font-semibold text-[color:var(--heroText,var(--text))]">{it.value}</div>
+                    <div className="text-xs text-[color:var(--heroMuted,var(--muted))]">
+                      {it.label}
+                    </div>
+                    <div className="font-semibold text-[color:var(--heroText,var(--text))]">
+                      {it.value}
+                    </div>
                   </div>
                 </div>
               ))}

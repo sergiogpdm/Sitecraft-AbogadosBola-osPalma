@@ -9,13 +9,13 @@ export const siteConfig = {
     "whatsapp": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
     "instagram": "https://instagram.com/TU_CUENTA",
     "facebook": "https://facebook.com/TU_PAGINA",
-    "maps": "https://www.google.com/maps/search/?api=1&query=Avda.%20de%20la%20Estaci%C3%B3n%20N%C2%BA%206%209%C2%BA%201%C2%AA%2C%2004005%20Almer%C3%ADa%2C%20Espa%C3%B1a"
+    "maps": "https://maps.app.goo.gl/ybsPTQMxcBcF5ttL6"
   },
   "contact": {
     "phoneDisplay": "(+34) 614 987 195",
     "phoneTel": "+34614987195",
     "email": "info@papeles26.es",
-    "address": "Avda. de la Estación Nº 6 9º 1ª - 04005 – Almería",
+    "address": "Av. de la Estación, 6, , 9-1, 04005 Almería",
     "hours": "",
     "phone": "614987195"
   },
@@ -136,7 +136,7 @@ export const siteConfig = {
 
     "contactForm": {
       "variant": "card",
-      "title": "LLÁMANOS",
+      "title": "TE LLAMAMOS",
       "subtitle": "",
       "submitText": "Enviar mensaje",
       "minMessageLength": 0,

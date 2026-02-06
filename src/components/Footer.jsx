@@ -1,6 +1,7 @@
 import Container from "./Container.jsx";
 import { useSiteConfig } from "../context/SiteConfigContext.jsx";
 import sitecraftLogo from "../assets/powered_by.png";
+import { Link } from "react-router-dom";
 
 const SOCIAL = [
   { key: "instagram", label: "Instagram" },
@@ -231,21 +232,26 @@ function LegalLink({ item, preview }) {
   const url = item.url || "#";
   const isExternal = typeof url === "string" && url.startsWith("http");
 
-  const onClick = (e) => {
-    if (preview) return e.preventDefault();
-    if (isExternal) {
-      e.preventDefault();
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
-  };
+  if (isExternal) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block text-sm text-[var(--muted)] underline underline-offset-4 decoration-transparent hover:decoration-current hover:text-[var(--text)] transition"
+      >
+        {item.label}
+      </a>
+    );
+  }
 
   return (
-    <a
-      href={url}
-      onClick={onClick}
+    <Link
+      to={url}
       className="block text-sm text-[var(--muted)] underline underline-offset-4 decoration-transparent hover:decoration-current hover:text-[var(--text)] transition"
     >
       {item.label}
-    </a>
+    </Link>
   );
 }
+

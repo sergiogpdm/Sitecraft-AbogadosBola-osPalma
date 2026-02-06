@@ -33,7 +33,7 @@ export default function ContactForm({
   infoAddress = "",
   infoMapsUrl = "",
 
-  // Protección de datos (plegable)
+  // Protección de datos
   pdTitle = "Información sobre Protección de Datos",
   pdEmail = "info@papeles26.es",
 
@@ -107,8 +107,7 @@ export default function ContactForm({
     else if (errors.phone) phoneRef.current?.focus();
   };
 
-  const buildText = () =>
-    `Nombre: ${values.name}\nTeléfono: ${values.phone}`;
+  const buildText = () => `Nombre: ${values.name}\nTeléfono: ${values.phone}`;
 
   const openWhatsApp = () => {
     const to = String(destination.whatsappTo || "").replace(/[^\d]/g, "");
@@ -199,21 +198,22 @@ export default function ContactForm({
               <div className="text-xs text-rose-500">{fieldError("phone")}</div>
             </div>
 
-            {/* 🔒 PD PLEGABLE */}
-            <details className="rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 py-3">
-              <summary className="cursor-pointer text-sm font-semibold">
-                {pdTitle}
-              </summary>
+            {/* 🔒 PD FIJO (NO PLEGABLE) */}
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg)] px-4 py-3">
+              <div className="text-sm font-semibold">{pdTitle}</div>
               <div className="mt-2 text-xs text-[var(--muted)] leading-relaxed">
                 Responsable: “José Bolaños Abogados”. Finalidad: Ponernos en contacto contigo y atender las consultas.
                 Legitimación: Medidas precontractuales e interés legítimo. Destinatarios: No se cederán datos salvo obligación legal.
                 Derechos: Puedes ejercerlos escribiendo a{" "}
-                <a href={`mailto:${pdEmail}`} className="underline font-medium text-[var(--text)]">
+                <a
+                  href={`mailto:${pdEmail}`}
+                  className="underline font-medium text-[var(--text)]"
+                >
                   {pdEmail}
-                </a>.
-                Información adicional en el apartado “Protección de datos” de nuestra web.
+                </a>
+                . Información adicional en el apartado “Protección de datos” de nuestra web.
               </div>
-            </details>
+            </div>
 
             <button
               type="submit"
