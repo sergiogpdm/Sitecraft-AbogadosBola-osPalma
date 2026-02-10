@@ -14,9 +14,14 @@ export default function Privacy() {
           <div className="mt-8 space-y-4 text-sm text-[var(--muted)] leading-relaxed">
             <Block title="Responsable del Tratamiento">
               <p>
-                <b className="text-[var(--text)]">JOSÉ BOLAÑOS ABOGADOS</b><br />
-                CIF: xxxxxxxxxxx<br />
-                Domicilio: Avenida de la Estación Nº 6, 9º - 1ª (04005 – Almería)<br />
+                <b className="text-[var(--text)]">
+                  JOSÉ BOLAÑOS ABOGADOS (en adelante, “el Responsable”)
+                </b>
+                <br />
+                NIF: 06228945Q
+                <br />
+                Domicilio: Avenida de la Estación Nº 6, 9º - 1ª (04005 – Almería)
+                <br />
                 Email de contacto: info@papeles26.es
               </p>
             </Block>
@@ -25,7 +30,9 @@ export default function Privacy() {
               <p>
                 Puede contactar con el Delegado de Protección de Datos escribiendo a{" "}
                 info@papeles26.es e indicando la referencia{" "}
-                <b className="text-[var(--text)]">“Delegado de Protección de Datos”</b>.
+                <b className="text-[var(--text)]">
+                  “Delegado de Protección de Datos”
+                </b>.
               </p>
             </Block>
 
@@ -77,25 +84,61 @@ export default function Privacy() {
             <Block title="Destinatarios">
               <p>
                 Los datos podrán ser tratados por proveedores de servicios contratados por
-                BOLAÑOS ABOGADOS cuando sea necesario, siempre bajo contrato y con las
+                el Responsable cuando sea necesario, siempre bajo contrato y con las
                 garantías legales correspondientes. No se cederán datos a terceros salvo
                 obligación legal.
               </p>
             </Block>
 
             <Block title="Derechos del usuario">
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Acceso a sus datos personales</li>
-                <li>Rectificación de datos inexactos</li>
-                <li>Supresión de sus datos</li>
-                <li>Oposición al tratamiento</li>
-                <li>Limitación del tratamiento</li>
-                <li>Portabilidad de los datos</li>
-                <li>Revocación del consentimiento en cualquier momento</li>
-                <li>Presentar reclamación ante la Agencia Española de Protección de Datos</li>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>
+                  <b className="text-[var(--text)]">Derecho de acceso:</b> Derecho a conocer
+                  qué tipo de datos estamos tratando y las características de los tratamientos
+                  que estamos llevando a cabo.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Derecho de rectificación:</b> Derecho a
+                  solicitar la modificación de tus datos personales por ser éstos inexactos,
+                  no veraces o desactualizados.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Derecho de oposición:</b> Derecho a
+                  solicitar que no se traten tus datos personales para determinadas finalidades.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Derecho de supresión:</b> Derecho a
+                  solicitar la supresión de tus datos personales cuando el tratamiento ya no
+                  resulte necesario.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Derecho a la limitación del tratamiento:</b>{" "}
+                  Derecho a solicitar la limitación del tratamiento de tus datos, únicamente
+                  para su conservación para el ejercicio o la defensa de reclamaciones,
+                  atención a requerimientos judiciales o a exigencias legales.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Derecho a la portabilidad:</b> Derecho a
+                  solicitar la portabilidad de los datos que nos hayas facilitado, para
+                  recibirlos en un formato estructurado, de uso común y lectura mecánica, y a
+                  que se transmitan a otro responsable.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Revocación del consentimiento:</b> En
+                  cualquier momento puedes revocar el consentimiento que hayas prestado, sin
+                  ningún tipo de detrimento o perjuicio.
+                </li>
+                <li>
+                  <b className="text-[var(--text)]">Presentación de una reclamación:</b> En
+                  cualquier momento puedes presentar reclamación ante la autoridad de control
+                  competente (en España, la Agencia Española de Protección de Datos).
+                </li>
               </ul>
-              <p className="mt-2">
-                Puede ejercer estos derechos escribiendo a{" "}
+
+              <p className="mt-3">
+                Para el ejercicio de cualquiera de los derechos enunciados, puedes dirigir tu
+                solicitud mediante escrito dirigido al responsable en la dirección de correo
+                electrónico{" "}
                 <b className="text-[var(--text)]">info@papeles26.es</b>.
               </p>
             </Block>

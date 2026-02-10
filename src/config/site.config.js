@@ -1,6 +1,6 @@
 export const siteConfig = {
   "brand": {
-    "name": "Bolaños y Palma Abogados",
+    "name": "Bolaños & Palma Abogados",
     "tagline": "Regularización inmigrantes 2026",
     "emojiLogo": "⚖️",
     "logoImage": "/demo/gallery/logobufete.jpeg"
@@ -15,7 +15,7 @@ export const siteConfig = {
     "phoneDisplay": "(+34) 614 987 195",
     "phoneTel": "+34614987195",
     "email": "info@papeles26.es",
-    "address": "Av. de la Estación, 6, , 9-1, 04005 Almería",
+    "address": "Av. de la Estación, 6, 9-1, 04005 Almería",
     "hours": "",
     "phone": "614987195"
   },
@@ -73,7 +73,7 @@ export const siteConfig = {
       "titleA": "REGULARIZACIÓN DE INMIGRANTES",
       "titleHighlight": "2026",
       "titleB": "",
-      "subtitle": "Conseguimos tu Permiso de Trabajo y Residencia",
+      "subtitle": "Conseguimos tu PERMISO DE TRABAJO Y RESIDENCIA",
       "ctaText": "Contactar por WhatsApp",
       "ctaHref": "https://wa.me/34614987195?text=Hola,%20quiero%20información%20sobre%20la%20regularización.",
       "secondaryText": "Ver datos de contacto",
@@ -129,7 +129,7 @@ export const siteConfig = {
     "promo": {
       "kicker": "",
       "title": "Somos Abogados Especialistas en Extranjería",
-      "subtitle": "No somos gestoría. Revisamos tu expediente de principio a final con seguimiento personalizado.\nAlto porcentaje de éxito en solicitudes aprobadas.",
+      "subtitle": "Revisamos tu expediente de principio a final con seguimiento personalizado.\nAlto porcentaje de éxito en solicitudes aprobadas.",
       "ctaText": "Hablar por WhatsApp",
       "ctaHref": "https://wa.me/34614987195"
     },

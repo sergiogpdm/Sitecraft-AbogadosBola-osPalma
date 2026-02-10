@@ -12,7 +12,7 @@ export default function ContactFormSection({ data }) {
           infoPhoneDisplay="(+34) 614987195"
           infoPhoneTel="+34614987195"
           infoEmail="info@papeles26.es"
-          infoAddress="Av. de la Estación, 6, , 9-1, 04005 Almería"
+          infoAddress="Av. de la Estación, 6, 9-1, 04005 Almería"
           infoMapsUrl="https://maps.app.goo.gl/ybsPTQMxcBcF5ttL6"
 
           fields={{ 
