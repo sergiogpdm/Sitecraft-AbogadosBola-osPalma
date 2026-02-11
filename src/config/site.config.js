@@ -121,7 +121,7 @@ export const siteConfig = {
       "desc": "",
       "items": [
         { "time": "1", "title": "Certificado de antecedentes penales de tu país", "desc": "Es importante que lo solicites YA.", "location": "" },
-        { "time": "2", "title": "Pasaporte vigente", "desc": "", "location": "" },
+        { "time": "2", "title": "Documento de identidad o pasaporte", "desc": "", "location": "" },
         { "time": "3", "title": "Acreditar mínimo 5 meses viviendo en España", "desc": "Certificado de empadronamiento, informes médicos, envío de dinero, facturas…", "location": "" }
       ]
     },
